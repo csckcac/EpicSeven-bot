@@ -1,0 +1,25 @@
+from core.classes import Cog_Extension
+from discord.ext import commands
+import discord
+import json
+
+with open("EpicSeven/data/BasicSetting/setting.json", encoding="utf-8") as jset :
+    setdata = json.load(jset)
+
+def is_me() :
+    def predicate(ctx) :
+        return ctx.message.author.id in setdata["Author-Id"]
+    return commands.check(predicate)
+
+class Sync(Cog_Extension) :
+    def __init__(self, bot):
+        self.bot = bot
+    
+    @is_me()
+    @commands.command(help = "連結slash command到伺服器")
+    async def sync(self, ctx) :
+        fmt = await ctx.bot.tree.sync(guild = ctx.guild)
+        await ctx.send(f"Synced {len(fmt)} commands.")
+        
+async def setup(bot) :
+    await bot.add_cog(Sync(bot), guilds=[discord.Object(id = setdata["Discord-Server-Id"]["main"]), discord.Object(id = setdata["Discord-Server-Id"]["test"])])
