@@ -23,10 +23,10 @@ class Draw_img(Cog_Extension) :
     async def draw(self, interaction) :
         try :
             # 載入 圖庫&抽取紀錄
-            with open(self.file) as f :
+            with open(self.file, encoding="utf-8") as f :
                 links = json.load(f)["images"]
 
-            with open(self.log, 'r') as f :
+            with open(self.log, 'r', encoding="utf-8") as f :
                 logs = json.load(f)
 
             # 產生亂數
@@ -48,7 +48,7 @@ class Draw_img(Cog_Extension) :
                 logs["images"] = []
                 reset = True
             
-            with open(self.log, 'w') as f :
+            with open(self.log, 'w', encoding="utf-8") as f :
                 json.dump(logs, f)
 
             if reset :
@@ -65,7 +65,7 @@ class Draw_img(Cog_Extension) :
     )
     async def add(self, interaction, image_links : str) :      
         # 打開圖庫
-        with open(self.file, 'r') as f :
+        with open(self.file, 'r', encoding="utf-8") as f :
             images_data = json.load(f)
 
         # 分割圖片連結字串
@@ -79,7 +79,7 @@ class Draw_img(Cog_Extension) :
                 cnt += 1
         
         # 寫入圖庫
-        with open(self.file, 'w') as f :
+        with open(self.file, 'w', encoding="utf-8") as f :
             json.dump(images_data, f)
         
         await interaction.response.send_message(f"{cnt}張圖片加入成功!")
@@ -125,7 +125,7 @@ class Draw_img(Cog_Extension) :
 
     @commands.command(help = "查看已經抽了多少張")
     async def check_drawn(self, ctx) :
-        with open(self.log, 'r') as f :
+        with open(self.log, 'r', encoding="utf-8") as f :
             logs = json.load(f)["images"]
         await ctx.send(f"現在已經抽了 {len(logs)} 張圖片")
 
