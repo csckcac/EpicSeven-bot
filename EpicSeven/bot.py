@@ -10,7 +10,7 @@ with open("EpicSeven/data/BasicSetting/setting.json", encoding="utf-8") as jset 
 bot = commands.Bot(command_prefix='/', intents=discord.Intents.all())
 
 async def load_cog():
-    for filename in os.listdir("D:\EpicSeven_bot\EpicSeven\cogs") :
+    for filename in os.listdir("EpicSeven/cogs") :
         if filename.endswith(".py") :
             try:
                 await bot.reload_extension(f"cogs.{filename[:-3]}")
@@ -27,7 +27,7 @@ def is_me() :
 @bot.command()
 @is_me()
 async def load(ctx, extension) :
-    if extension[-3:] == ".py" :
+    if extension.endswith(".py") :
         extension = extension[:-3]
 
     await bot.load_extension(f"cogs.{extension}")
@@ -36,7 +36,7 @@ async def load(ctx, extension) :
 @bot.command()
 @is_me()
 async def unload(ctx, extension) :
-    if extension[-3:] == ".py" :
+    if extension.endswith(".py") :
         extension = extension[:-3]
 
     await bot.unload_extension(f"cogs.{extension}")
@@ -45,7 +45,7 @@ async def unload(ctx, extension) :
 @bot.command()
 @is_me()
 async def reload(ctx, extension) :
-    if extension[-3:] == ".py" :
+    if extension.endswith(".py") :
         extension = extension[:-3]
 
     await bot.reload_extension(f"cogs.{extension}")
