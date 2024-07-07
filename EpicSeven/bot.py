@@ -19,13 +19,13 @@ async def load_cog():
                 await bot.load_extension(f"cogs.{filename[:-3]}")
                 print(f"Load {filename[:-3]} successfully!")
 
-def is_me() :
+def is_author() :
     def predicate(ctx) :
         return ctx.message.author.id in setdata["Author-Id"]
     return commands.check(predicate)
 
 @bot.command()
-@is_me()
+@is_author()
 async def load(ctx, extension) :
     if extension.endswith(".py") :
         extension = extension[:-3]
@@ -34,7 +34,7 @@ async def load(ctx, extension) :
     await ctx.send(f"Load {extension} done.")
 
 @bot.command()
-@is_me()
+@is_author()
 async def unload(ctx, extension) :
     if extension.endswith(".py") :
         extension = extension[:-3]
@@ -43,7 +43,7 @@ async def unload(ctx, extension) :
     await ctx.send(f"Unload {extension} done.")
 
 @bot.command()
-@is_me()
+@is_author()
 async def reload(ctx, extension) :
     if extension.endswith(".py") :
         extension = extension[:-3]
@@ -52,7 +52,7 @@ async def reload(ctx, extension) :
     await ctx.send(f"Reload {extension} done.")
 
 @bot.command()
-@is_me()
+@is_author()
 async def reload_all(ctx) :
     await load_cog()
     await ctx.send("reload_all done")
