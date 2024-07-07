@@ -1,6 +1,7 @@
 import discord
 import json
 import random
+import aiofiles
 from discord.ext import commands
 from core.classes import Cog_Extension
 
@@ -14,7 +15,14 @@ class Draw_img(Cog_Extension) :
         self.bot = bot
         self.file = "EpicSeven/data/Draw_img/image.json"
         self.log = "EpicSeven/data/Draw_img/log.json"
+
+    async def load_json(self, file_path) :
+        async with aiofiles.open(file_path, mode='r', encoding='utf-8') as f :
+            return json.loads(await f.read())
     
+    async def save_json(self, file_path, data) :
+        async with aiofiles.open(file_path, mode='w', encoding="utf-8") as f :
+            await f.write(json.dumps(data, ensure_ascii=False, indent=4))
     @bot.tree.command(
         name = "draw",
         description = "抽老婆",
@@ -22,23 +30,21 @@ class Draw_img(Cog_Extension) :
     )
     async def draw(self, interaction) :
         try :
+            await interaction.response.defer()
             # 載入 圖庫&抽取紀錄
-            with open(self.file, encoding="utf-8") as f :
-                links = json.load(f)["images"]
-
-            with open(self.log, 'r', encoding="utf-8") as f :
-                logs = json.load(f)
+            links = await self.load_json(self.file)
+            logs = await self.load_json(self.log)
 
             # 產生亂數
-            length = len(links)
+            length = len(links["images"])
             draw_num = random.randint(0, length-1)
 
             # 直到是沒抽到過的
-            while links[draw_num] in logs["images"] :
+            while links["images"][draw_num] in logs["images"] :
                 draw_num = (draw_num + 1) % length
 
             # 加到紀錄中
-            logs["images"].append(links[draw_num])
+            logs["images"].append(links["images"][draw_num])
             
             # 檢查是否抽過一輪
             reset = False
@@ -48,25 +54,24 @@ class Draw_img(Cog_Extension) :
                 logs["images"] = []
                 reset = True
             
-            with open(self.log, 'w', encoding="utf-8") as f :
-                json.dump(logs, f)
+            await self.save_json(self.log, logs)
 
             if reset :
-                await interaction.response.send_message("|| " + links[draw_num] + " ||\n抽完一輪!! 抽圖記錄重置!!")
+                await interaction.followup.send(f"|| {links['images'][draw_num]} ||\n抽完一輪!! 抽圖記錄重置!!")
             else :
-                await interaction.response.send_message("|| " + links[draw_num] + " ||")
-        except :
-            await interaction.response.send_message("發生錯誤 >.< 請再試一次")
+                await interaction.followup.send(f"|| {links['images'][draw_num]} ||")
+        except Exception as e :
+            await interaction.followup.send(f"發生錯誤 >.< 請再試一次\n{e}")
     
     @bot.tree.command(
         name = "add",
         description = "加圖片 多個連結請以空格分開 連結不要用pixiv的",
         guild = discord.Object(id=setdata["Discord-Server-Id"]["main"])
     )
-    async def add(self, interaction, image_links : str) :      
+    async def add(self, interaction, image_links : str) :
+        await interaction.response.defer() 
         # 打開圖庫
-        with open(self.file, 'r', encoding="utf-8") as f :
-            images_data = json.load(f)
+        images_data = await self.load_json(self.file)
 
         # 分割圖片連結字串
         links = image_links.split(' ')
@@ -79,10 +84,9 @@ class Draw_img(Cog_Extension) :
                 cnt += 1
         
         # 寫入圖庫
-        with open(self.file, 'w', encoding="utf-8") as f :
-            json.dump(images_data, f)
+        await self.save_json(self.file, images_data)
         
-        await interaction.response.send_message(f"{cnt}張圖片加入成功!")
+        await interaction.followup.send(f"{cnt}張圖片加入成功!")
 
     @bot.tree.command(
         name = "remove",
@@ -90,9 +94,9 @@ class Draw_img(Cog_Extension) :
         guild = discord.Object(id=setdata["Discord-Server-Id"]["main"])
     )
     async def remove(self, interaction, image_links : str) :
+        interaction.response.defer()
         # 打開圖庫
-        with open(self.file, 'r') as f :
-            images_data = json.load(f)
+        images_data = await self.load_json(self.file)
         
         # 分割圖片連結字串
         links = image_links.split(' ')
@@ -108,26 +112,23 @@ class Draw_img(Cog_Extension) :
                 not_find.append("<" + link + ">")
         
         # 修改圖庫
-        with open(self.file, 'w') as f :
-            json.dump(images_data, f)
+        await self.save_json(self.file, images_data)
 
         # 如果有連結不存在 通知使用者連結錯誤
         if not_find :
-            await interaction.response.send_message(f"刪除完畢!\nbot 沒有找到以下圖片 {not_find} 請檢查連結是否正確")
+            await interaction.followup.send(f"刪除完畢!\nbot 沒有找到以下圖片 {not_find} 請檢查連結是否正確")
         
-        await interaction.response.send_message("刪除完畢!")
+        await interaction.followup.send("刪除完畢!")
     
     @commands.command(help = "查詢圖庫中圖片的數量")
     async def check(self, ctx) :
-        with open(self.file, 'r') as f :
-            images_data = json.load(f)["images"]
-        await ctx.send(f"現在圖庫總共有 {len(images_data)} 張圖片")
+        images_data = await self.load_json(self.file)
+        await ctx.send(f"現在圖庫總共有 {len(images_data['images'])} 張圖片")
 
     @commands.command(help = "查看已經抽了多少張")
     async def check_drawn(self, ctx) :
-        with open(self.log, 'r', encoding="utf-8") as f :
-            logs = json.load(f)["images"]
-        await ctx.send(f"現在已經抽了 {len(logs)} 張圖片")
+        logs = await self.load_json(self.log)
+        await ctx.send(f"現在已經抽了 {len(logs['images'])} 張圖片")
 
 async def setup(bot):
   await bot.add_cog(Draw_img(bot), guilds = [discord.Object(id = setdata["Discord-Server-Id"]["main"]), discord.Object(id = setdata["Discord-Server-Id"]["test"])])
