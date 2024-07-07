@@ -1,5 +1,5 @@
 import discord
-import requests
+import aiohttp
 import json
 from discord import app_commands
 from discord.app_commands import Choice
@@ -56,22 +56,30 @@ class GvgSolver(Cog_Extension) :
     @app_commands.command(description="GVG進攻解陣(支援遊戲內名稱、角色簡稱、英文名稱)")
     @app_commands.autocomplete(hero1 = name_autocomplete, hero2 = name_autocomplete, hero3 = name_autocomplete)
     async def solve_gvg(self, interaction : discord.Interaction, hero1 : str, hero2 : str, hero3 : str) :
+        await interaction.response.defer()
         # 發生重複選擇
         if (hero1 == hero2) or (hero1 == hero3) or (hero2 == hero3) :
-            await interaction.response.send_message("不能有重複的選項!! 請再試一次!")
+            await interaction.followup.send("不能有重複的選項!! 請再試一次!")
             return
         
         # 選擇錯誤: 直接輸入
         if (hero1 not in info) or (hero2 not in info) or (hero3 not in info) :
-            await interaction.response.send_message("發生錯誤!! 請再試一次! 請注意要用選的") 
+            await interaction.followup.send("發生錯誤!! 請再試一次! 請注意要用選的") 
+            return
         
         # 向目標伺服器請求
-        data_dic = requests.post(self.target_url, headers=self.headers, data=f"{hero1},{hero2},{hero3}").json()
+        async with aiohttp.ClientSession() as session :
+            async with session.post(self.target_url, headers=self.headers, data=f"{hero1},{hero2},{hero3}") as r :
+                if r.status == 200 :
+                    data_dic = await r.json(encoding="utf-8")
+                else :
+                    await interaction.followup.send("發生錯誤! 請再試一次 >.<")
+                    return
         
         try :
             # 沒有數據
             if "status" in data_dic and data_dic["status"] == "ERROR" :
-                await interaction.response.send_message(f"目前紀錄沒有 {make_team(info, [hero1, hero2, hero3])} 的解法")
+                await interaction.followup.send(f"目前紀錄沒有 {make_team(info, [hero1, hero2, hero3])} 的解法")
                 return
             
             # 排序 : 勝利場數降冪 取前20個
@@ -87,10 +95,10 @@ class GvgSolver(Cog_Extension) :
                 heroes = team[0].split(",")
                 embed.add_field(name=f"{make_team(info, heroes)}   {self.win} {team[1]['w']}  {self.lose} {team[1]['l']}", value="", inline=False)
                 
-            await interaction.response.send_message(embed=embed)
+            await interaction.followup.send(embed=embed)
             
         except Exception as e :
-            await interaction.response.send_message(e)
+            await interaction.followup.send(e)
     
     @bot.tree.command(
         name = "solve_gvg_helper",
