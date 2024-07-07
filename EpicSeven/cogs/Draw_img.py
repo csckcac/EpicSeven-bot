@@ -19,7 +19,6 @@ class Draw_img(Cog_Extension) :
     @bot.tree.command(
         name = "draw",
         description = "抽老婆",
-        guild = discord.Object(id=setdata["Discord-Server-Id"]["main"])
     )
     async def draw(self, interaction) :
         try :
@@ -57,9 +56,8 @@ class Draw_img(Cog_Extension) :
             await interaction.followup.send(f"發生錯誤 >.< 請再試一次\n{e}")
     
     @bot.tree.command(
-        name = "add",
+        name = "add_image",
         description = "加圖片 多個連結請以空格分開 連結不要用pixiv的",
-        guild = discord.Object(id=setdata["Discord-Server-Id"]["main"])
     )
     async def add(self, interaction, image_links : str) :
         await interaction.response.defer() 
@@ -82,9 +80,8 @@ class Draw_img(Cog_Extension) :
         await interaction.followup.send(f"{cnt}張圖片加入成功!")
 
     @bot.tree.command(
-        name = "remove",
+        name = "remove_image",
         description = "將圖片從bot中移除 多個連結請以空格分開",
-        guild = discord.Object(id=setdata["Discord-Server-Id"]["main"])
     )
     async def remove(self, interaction, image_links : str) :
         interaction.response.defer()
