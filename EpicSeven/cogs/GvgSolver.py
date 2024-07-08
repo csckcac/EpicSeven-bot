@@ -8,6 +8,7 @@ from core.classes import Cog_Extension
 
 info_path = "EpicSeven/data/GvgSolver/info.json"
 name_dic_path = "EpicSeven/data/GvgSolver/name-to-code.json"
+bot = commands.Bot(command_prefix='/', intents=discord.Intents.all())
 
 with open("EpicSeven/data/BasicSetting/setting.json", encoding="utf-8") as jset :
     setdata = json.load(jset)
@@ -26,8 +27,6 @@ def is_author() :
     def predicate(ctx) :
         return ctx.message.author.id in setdata["Author-Id"]
     return commands.check(predicate)
-
-bot = commands.Bot(command_prefix='/', intents=discord.Intents.all())
 
 class GvgSolver(Cog_Extension) :
     def __init__(self, bot):
