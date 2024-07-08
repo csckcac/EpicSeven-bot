@@ -26,7 +26,7 @@ def make_team(info, heroses):
 def is_author() :
     def predicate(ctx) :
         return ctx.message.author.id in setdata["Author-Id"]
-    return commands.check(predicate)
+    return app_commands.check(predicate)
 
 class GvgSolver(Cog_Extension) :
     def __init__(self, *args, **kwargs):
@@ -55,14 +55,22 @@ class GvgSolver(Cog_Extension) :
                     }
 
     # autocomplete篩選
-    async def name_autocomplete(self, interaction : discord.Interaction, input : str) :       
+    async def name_autocomplete(self, interaction : discord.Interaction, input : str) -> list[Choice[str]] :       
         matching_val = {val for input_val, val in name_dic.items() if input.lower() in input_val.lower()}
         matching_val = list(matching_val)[:25] # 至多25個角色選擇
         
         # 回傳 顯示文字與回傳數值
-        return [Choice(name = f"{self.ElementIcon[self.info[val]['element'] ]} {self.info[val]['OptionName']} ({self.info[val]['rarity']})", value = val) for val in matching_val]
+        return [
+            Choice(
+                name = f"{self.ElementIcon[self.info[val]['element'] ]} {self.info[val]['OptionName']} ({self.info[val]['rarity']})",
+                value = val
+            )
+            for val in matching_val
+        ]
     
     @app_commands.command(description="GVG進攻解陣(支援遊戲內名稱、角色簡稱、英文名稱)")
+    @app_commands.describe(hero1 = "選擇 一個英雄(使用滑鼠左鍵 或 鍵盤ENTER鍵，手機的話用點的)", hero2 = "選擇 一個英雄(使用滑鼠左鍵 或 鍵盤ENTER鍵，手機的話用點的)", hero3 = "選擇 一個英雄(使用滑鼠左鍵 或 鍵盤ENTER鍵，手機的話用點的)")
+    @app_commands.guilds(setdata["Discord-Server-Id"]["main"], setdata["Discord-Server-Id"]["test"])
     @app_commands.autocomplete(hero1 = name_autocomplete, hero2 = name_autocomplete, hero3 = name_autocomplete)
     async def solve_gvg(self, interaction : discord.Interaction, hero1 : str, hero2 : str, hero3 : str) :
         await interaction.response.defer()
@@ -109,10 +117,19 @@ class GvgSolver(Cog_Extension) :
         except Exception as e :
             await interaction.followup.send(e)    
     
-    @bot.tree.command(
+    @app_commands.command(
         name = "modify_hero_info",
         description = "新增或修改英雄資訊",
     )
+    @app_commands.describe(
+        code="英雄的編碼(以原版解陣網站為主)",
+        optionname="選項顯示的文字 格視為 遊戲內中文名稱 | 遊戲內英文名稱", 
+        displayname="隊伍中顯示的名稱 格式為 遊戲內中文名稱",
+        iconid="隊伍中顯示的圖示",
+        rarity="稀有度(星數)",
+        element="屬性"
+        )
+    @app_commands.guilds(setdata["Discord-Server-Id"]["main"], setdata["Discord-Server-Id"]["test"])
     @is_author()
     async def modify_hero_info(self, interaction, code : str, optionname : str, displayname : str, iconid : str, rarity : int, element : str) :
         await interaction.response.defer()
@@ -132,10 +149,12 @@ class GvgSolver(Cog_Extension) :
         except Exception as e :
             await interaction.followup.send(f"發生 {e} 的錯誤!\n請再試一次 >.<")
     
-    @bot.tree.command(
+    @app_commands.command(
         name="remove_hero_info",
         description="刪除英雄資訊"
     )
+    @app_commands.describe(code="英雄的編碼(以原版解陣網站為主)")
+    @app_commands.guilds(setdata["Discord-Server-Id"]["main"], setdata["Discord-Server-Id"]["test"])
     @is_author()
     async def remove_hero_info(self, interaction, code : str) :
         await interaction.response.defer()
@@ -150,10 +169,12 @@ class GvgSolver(Cog_Extension) :
         except Exception as e :
             await interaction.followup.send(f"發生 {e} 的錯誤!\n請再試一次 >.<")
             
-    @bot.tree.command(
+    @app_commands.command(
         name="add_name",
         description="增加選項可接受的名稱 names 支援多組名稱 請用空格隔開 code為該英雄的編碼"
     )
+    @app_commands.describe(names="英雄的名稱或簡稱", code="英雄的編碼(以原版解陣網站為主)")
+    @app_commands.guilds(setdata["Discord-Server-Id"]["main"], setdata["Discord-Server-Id"]["test"])
     @is_author()
     async def add_name(self, interaction, names : str, code : str) :
         await interaction.response.defer()
@@ -170,10 +191,12 @@ class GvgSolver(Cog_Extension) :
         except Exception as e :
             await interaction.followup.send(f"發生 {e} 的錯誤!\n請再試一次 >.<")
             
-    @bot.tree.command(
+    @app_commands.command(
         name="remove_name",
         description="刪除選項可接受的名稱 names 支援多組名稱 請用空格隔開"
     )
+    @app_commands.describe(names="英雄的名稱或簡稱")
+    @app_commands.guilds(setdata["Discord-Server-Id"]["main"], setdata["Discord-Server-Id"]["test"])
     @is_author()
     async def remove_name(self, interaction, names : str) :
         await interaction.response.defer()
@@ -191,10 +214,12 @@ class GvgSolver(Cog_Extension) :
         except Exception as e :
             await interaction.followup.send(f"發生 {e} 的錯誤!\n請再試一次 >.<")
             
-    @bot.tree.command(
+    @app_commands.command(
         name="remove_all_name",
         description="刪除全部編碼為code的名稱 支援多組code刪除 多組code請用空格隔開"
     )
+    @app_commands.describe(code="英雄的編碼(以原版解陣網站為主)")
+    @app_commands.guilds(setdata["Discord-Server-Id"]["main"], setdata["Discord-Server-Id"]["test"])
     @is_author()
     async def remove_all_name(self, interaction, code : str) :
         await interaction.response.defer()
@@ -208,10 +233,11 @@ class GvgSolver(Cog_Extension) :
         except Exception as e :
             await interaction.followup.send(f"發生 {e} 的錯誤!\n請再試一次 >.<")
             
-    @bot.tree.command(
+    @app_commands.command(
         name="gvg_helper",
         description="GVG進攻解陣指令 - 使用說明"
     )
+    @app_commands.guilds(setdata["Discord-Server-Id"]["main"], setdata["Discord-Server-Id"]["test"])
     async def gvg_helper(self, interaction) :
         try :
             embed1 = discord.Embed(title="GVG進攻陣容指令 - 使用說明")
