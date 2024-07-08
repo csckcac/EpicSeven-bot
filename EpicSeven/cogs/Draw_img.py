@@ -11,8 +11,8 @@ with open("EpicSeven/data/BasicSetting/setting.json", encoding="utf-8") as jset 
 bot = commands.Bot(command_prefix='/', intents=discord.Intents.all())
 
 class Draw_img(Cog_Extension) :
-    def __init__(self, bot):
-        self.bot = bot
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.file = "EpicSeven/data/Draw_img/image.json"
         self.log = "EpicSeven/data/Draw_img/log.json"
 
