@@ -108,17 +108,7 @@ class GvgSolver(Cog_Extension) :
             await interaction.followup.send(embed=embed)
             
         except Exception as e :
-            await interaction.followup.send(e)
-    
-    '''
-    @bot.tree.command(
-        name = "solve_gvg_helper",
-        description = "solve_gvg 指令使用說明",
-        guild = discord.Object(id=setdata["Discord-Server-Id"]["main"])
-    )
-    async def help_(self, interaction) :
-        await interaction.response.send_message("請去看 <#1256273173414940743>")'''
-    
+            await interaction.followup.send(e)    
     
     @bot.tree.command(
         name = "modify_hero_info",
