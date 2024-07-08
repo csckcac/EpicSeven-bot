@@ -7,7 +7,7 @@ from discord.ext import commands
 with open("EpicSeven/data/BasicSetting/setting.json", encoding="utf-8") as jset :
     setdata = json.load(jset)
 
-bot = commands.Bot(command_prefix='/', intents=discord.Intents.all())
+bot = commands.Bot(command_prefix='/', intents=discord.Intents.all(), activity=discord.Game(name="宇宙神遊-第七史詩"))
 
 async def load_cog():
     for filename in os.listdir("EpicSeven/cogs") :
