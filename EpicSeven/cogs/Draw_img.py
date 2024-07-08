@@ -1,8 +1,8 @@
 import discord
 import json
 import random
-import aiofiles
 from discord.ext import commands
+from discord import app_commands
 from core.classes import Cog_Extension
 
 with open("EpicSeven/data/BasicSetting/setting.json", encoding="utf-8") as jset :
@@ -16,10 +16,11 @@ class Draw_img(Cog_Extension) :
         self.file = "EpicSeven/data/Draw_img/image.json"
         self.log = "EpicSeven/data/Draw_img/log.json"
 
-    @bot.tree.command(
+    @app_commands.command(
         name = "draw",
         description = "抽老婆",
     )
+    @app_commands.guilds(setdata["Discord-Server-Id"]["main"], setdata["Discord-Server-Id"]["test"])
     async def draw(self, interaction) :
         try :
             await interaction.response.defer()
@@ -55,10 +56,12 @@ class Draw_img(Cog_Extension) :
         except Exception as e :
             await interaction.followup.send(f"發生錯誤 >.< 請再試一次\n{e}")
     
-    @bot.tree.command(
+    @app_commands.command(
         name = "add_image",
         description = "加圖片 多個連結請以空格分開 連結不要用pixiv的",
     )
+    @app_commands.describe(image_links="圖片連結 多個連結請以空格隔開 (目前技術不足 無法用pixiv的圖片)")
+    @app_commands.guilds(setdata["Discord-Server-Id"]["main"], setdata["Discord-Server-Id"]["test"])
     async def add(self, interaction, image_links : str) :
         await interaction.response.defer() 
         # 打開圖庫
@@ -79,10 +82,12 @@ class Draw_img(Cog_Extension) :
         
         await interaction.followup.send(f"{cnt}張圖片加入成功!")
 
-    @bot.tree.command(
+    @app_commands.command(
         name = "remove_image",
         description = "將圖片從bot中移除 多個連結請以空格分開",
     )
+    @app_commands.describe(image_links="圖片連結 多個連結請以空格隔開")
+    @app_commands.guilds(setdata["Discord-Server-Id"]["main"], setdata["Discord-Server-Id"]["test"])
     async def remove(self, interaction, image_links : str) :
         interaction.response.defer()
         # 打開圖庫
@@ -110,12 +115,20 @@ class Draw_img(Cog_Extension) :
         
         await interaction.followup.send("刪除完畢!")
     
-    @commands.command(help = "查詢圖庫中圖片的數量")
+    @app_commands.command(
+        name="check_image_num",
+        description="查詢圖庫中圖片的數量"
+    )
+    @app_commands.guilds(setdata["Discord-Server-Id"]["main"], setdata["Discord-Server-Id"]["test"])
     async def check(self, ctx) :
         images_data = await self.load_json(self.file)
         await ctx.send(f"現在圖庫總共有 {len(images_data['images'])} 張圖片")
 
-    @commands.command(help = "查看已經抽了多少張")
+    @app_commands.command(
+        name="check_image_drawn_num",
+        description="查詢已抽過圖片的數量"
+    )
+    @app_commands.guilds(setdata["Discord-Server-Id"]["main"], setdata["Discord-Server-Id"]["test"])
     async def check_drawn(self, ctx) :
         logs = await self.load_json(self.log)
         await ctx.send(f"現在已經抽了 {len(logs['images'])} 張圖片")
