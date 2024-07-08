@@ -27,35 +27,48 @@ def is_author() :
 @bot.command()
 @is_author()
 async def load(ctx, extension) :
-    if extension.endswith(".py") :
-        extension = extension[:-3]
+    try :
+        if extension.endswith(".py") :
+            extension = extension[:-3]
 
-    await bot.load_extension(f"cogs.{extension}")
-    await ctx.send(f"Load {extension} done.")
+        await bot.load_extension(f"cogs.{extension}")
+        await ctx.send(f"Load {extension} done.") 
+    except Exception as e :
+        await ctx.send(e)
 
 @bot.command()
 @is_author()
 async def unload(ctx, extension) :
-    if extension.endswith(".py") :
-        extension = extension[:-3]
+    try :
+        if extension.endswith(".py") :
+            extension = extension[:-3]
 
-    await bot.unload_extension(f"cogs.{extension}")
-    await ctx.send(f"Unload {extension} done.")
+        await bot.unload_extension(f"cogs.{extension}")
+        await ctx.send(f"Unload {extension} done.")
+    except Exception as e :
+        await ctx.send(e)
 
 @bot.command()
 @is_author()
 async def reload(ctx, extension) :
-    if extension.endswith(".py") :
-        extension = extension[:-3]
+    try :
+        if extension.endswith(".py") :
+            extension = extension[:-3]
 
-    await bot.reload_extension(f"cogs.{extension}")
-    await ctx.send(f"Reload {extension} done.")
+        await bot.reload_extension(f"cogs.{extension}")
+        await ctx.send(f"Reload {extension} done.")
+    
+    except Exception as e :
+        await ctx.send(e)
 
 @bot.command()
 @is_author()
 async def reload_all(ctx) :
-    await load_cog()
-    await ctx.send("reload_all done")
+    try :
+        await load_cog()
+        await ctx.send("reload_all done")
+    except Exception as e :
+        await ctx.send(e)
 
 @bot.event
 async def on_ready():
