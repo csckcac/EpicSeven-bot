@@ -12,8 +12,8 @@ def is_author() :
     return commands.check(predicate)
 
 class Sync(Cog_Extension) :
-    def __init__(self, bot):
-        self.bot = bot
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
     
     @is_author()
     @commands.command(help = "連結slash command到伺服器")
