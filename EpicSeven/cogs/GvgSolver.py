@@ -29,8 +29,8 @@ def is_author() :
     return commands.check(predicate)
 
 class GvgSolver(Cog_Extension) :
-    def __init__(self, bot):
-        self.bot = bot
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.info = info
         self.name_dic = name_dic
         self.ElementIcon = { "fire" : "🔥", "water" : "💧", "wind" : "🌳", "light" : "✨", "dark" : "⚫"}
