@@ -18,3 +18,11 @@ Author : Lyuuwu
 Changelog :
     - 新增關閉bot的指令
     - 將會長兩個dc帳號加到author中
+
+---
+
+Version : v1.02
+Release Date : 2024-07-16
+Author : Lyuuwu
+Changelog :
+    - 新增更新指令
