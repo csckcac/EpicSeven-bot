@@ -1,5 +1,6 @@
 Version : v1.00
 Release Date : 2024-07-10
+Author : Lyuuwu
 Changelog :
     - 第七史詩官方新影片 dc頻道通知
     - 抽圖片
@@ -13,6 +14,7 @@ Changelog :
 
 Version : v1.01
 Release Date : 2024-07-15
+Author : Lyuuwu
 Changelog :
     - 新增關閉bot的指令
     - 將會長兩個dc帳號加到author中
