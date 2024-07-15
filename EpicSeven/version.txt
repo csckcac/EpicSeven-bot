@@ -1,0 +1,18 @@
+Version : v1.00
+Release Date : 2024-07-10
+Changelog :
+    - 第七史詩官方新影片 dc頻道通知
+    - 抽圖片
+    - 新增/刪除 圖片
+    - GVG 進攻隊伍查詢
+    - 添加角色資訊的指令
+    - 添加角色簡稱的指令
+    - 同步slash command 的指令
+
+---
+
+Version : v1.01
+Release Date : 2024-07-15
+Changelog :
+    - 新增關閉bot的指令
+    - 將會長兩個dc帳號加到author中
