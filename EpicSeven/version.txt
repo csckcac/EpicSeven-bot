@@ -26,3 +26,12 @@ Release Date : 2024-07-16
 Author : Lyuuwu
 Changelog :
     - 新增更新指令
+
+---
+
+Version : v1.03
+Release Date : 2024-07-26
+Author : Lyuuwu
+Changelog :
+    - 修改Youtube.py中的 @task 的開始與結束
+    - 修復更新patch的時候 不會更新bot中的version
