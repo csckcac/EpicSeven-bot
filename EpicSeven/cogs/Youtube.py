@@ -1,7 +1,7 @@
 import discord
 import scrapetube
 import json
-from discord.ext import commands, tasks
+from discord.ext import tasks
 from core.classes import Cog_Extension
 
 with open("EpicSeven/data/BasicSetting/setting.json", encoding="utf-8") as jset :
