@@ -5,6 +5,15 @@ import aiohttp
 import asyncio
 import subprocess
 import json
+import aiofiles
+
+async def load_json(file_path) :
+    async with aiofiles.open(file_path, mode='r', encoding='utf-8') as f :
+        return json.loads(await f.read())
+
+async def save_json(file_path, data) :
+    async with aiofiles.open(file_path, mode='w', encoding="utf-8") as f :
+        await f.write(json.dumps(data, ensure_ascii=False, indent=4))
 
 async def download_file(session : aiohttp.ClientSession, url : str, target_path : str) :
     async with session.get(url) as r :
@@ -47,6 +56,17 @@ async def update_files(update_json_path, patch_path) :
             if os.path.exists(des) :
                 os.remove(des)
             shutil.copy2(source, des)
+            
+async def change_version(target_dir, patch_path) :
+    setting_path = os.path.join(target_dir, "data", "BasicSetting", "setting.json")
+    version_path = os.path.join(patch_path, "version.json")
+    
+    target_version = await load_json(setting_path)
+    source_version = await load_json(version_path)
+    
+    target_version["version"] = source_version["version"]
+    
+    await save_json(setting_path, target_version)
 
 async def update_bot() :
     try :
@@ -61,6 +81,8 @@ async def update_bot() :
         
         json_file = os.path.join(patch_path, "update.json")
         await update_files(json_file, patch_path)
+        
+        await change_version(target_dir, patch_path)
         
         requirements_file = os.path.join(patch_path, "requirements.txt")
         if os.path.exists(requirements_file) :
