@@ -15,11 +15,11 @@ class Youtube(Cog_Extension):
     }
     self.videos = {}
     self.discord_channel = setdata["YouTube-Notification-Channel"]
-
-  # Cog開始運行的時候 執行check()
-  @commands.Cog.listener()
-  async def on_ready(self):
-    await self.check.start()
+    self.check.start()
+    
+  #Cog 卸載時停止 check
+  def cog_unload(self) :
+    self.check.cancel()
 
   # 偵測新影片
   @tasks.loop(seconds=20)
