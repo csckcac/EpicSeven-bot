@@ -20,7 +20,9 @@ class Update(Cog_Extension) :
         try :
             await interaction.response.defer()
             await update.update_bot()
-            await interaction.followup.send("更新完成!")
+            with open("EpicSeven/data/BasicSetting/setting.json", encoding="utf-8") as jset :
+                setdata = json.load(jset)
+            await interaction.followup.send(f"更新完成! 現在版本是 {setdata["version"]}!")
         except Exception as e :
             await interaction.folloup.send(e)
 
