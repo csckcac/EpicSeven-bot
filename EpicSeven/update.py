@@ -40,7 +40,8 @@ async def download_and_extract_zip(url, target_dir) :
 def install_requirements(requirements_file) :
     subprocess.run(["pip", "install", "-r", requirements_file])
 
-async def update_files(update_json_path, patch_path) :
+async def update_files(patch_path) :
+    update_json_path = os.path.join(patch_path, "update.json")
     with open(update_json_path, 'r') as f :
         files_to_update = json.load(f)
         
@@ -74,15 +75,12 @@ async def update_bot() :
         target_dir = os.path.join(os.getcwd(), "EpicSeven")
         patch_path = os.path.join(target_dir, 'patch')
         
-        check = await download_and_extract_zip(github_zip_url, target_dir)
+        await download_and_extract_zip(github_zip_url, target_dir)
         
-        if check != 0 :
-            return check
-        
-        json_file = os.path.join(patch_path, "update.json")
-        await update_files(json_file, patch_path)
+        await update_files(patch_path)
         
         await change_version(target_dir, patch_path)
+        
         
         requirements_file = os.path.join(patch_path, "requirements.txt")
         if os.path.exists(requirements_file) :
