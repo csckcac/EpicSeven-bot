@@ -1,6 +1,5 @@
 from core.classes import Cog_Extension
 from discord.ext import commands
-from discord import app_commands
 import discord
 import json
 
@@ -24,17 +23,6 @@ class Sync(Cog_Extension) :
             await ctx.send(f"Synced {len(fmt)} commands.")
         except Exception as e :
             await ctx.send(e)
-            
-    @is_author()
-    @app_commands.command(
-        name="version_check",
-        description="確認bot當前的版本"
-    )
-    @app_commands.guilds(setdata["Discord-Server-Id"]["main"], setdata["Discord-Server-Id"]["test"])
-    async def version_check(self, interaction) :
-        with open("EpicSeven/data/BasicSetting/setting.json", encoding="utf-8") as jset :
-            setdata = json.load(jset)
-        interaction.response.send_message(f"現在的版本是 {setdata["version"]}!")
         
 async def setup(bot) :
     await bot.add_cog(Sync(bot), guilds=[discord.Object(id = setdata["Discord-Server-Id"]["main"]), discord.Object(id = setdata["Discord-Server-Id"]["test"])])
