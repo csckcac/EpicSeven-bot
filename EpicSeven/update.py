@@ -81,7 +81,6 @@ async def update_bot() :
         
         await change_version(target_dir, patch_path)
         
-        
         requirements_file = os.path.join(patch_path, "requirements.txt")
         if os.path.exists(requirements_file) :
             install_requirements(requirements_file)
