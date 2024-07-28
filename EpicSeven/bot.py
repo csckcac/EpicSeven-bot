@@ -78,14 +78,6 @@ async def quit(ctx) :
         await ctx.bot.close()
     except Exception as e :
         await ctx.send(e)
-        
-@bot.command(help = "查看現在bot的版本")
-@is_author()
-async def version(ctx) :
-    try : 
-        await ctx.send(f"現在版本是 {setdata['version']}")
-    except Exception as e :
-        await ctx.send(e)
 
 @bot.event
 async def on_ready():
