@@ -109,7 +109,7 @@ class GvgSolver(Cog_Extension) :
             
             for team in teams :
                 # 將隊伍中的角色拆開
-                heroes = [hero if hero != "c0088" else "" for hero in team[0].split(",")]
+                heroes = [hero for hero in team[0].split(",") if hero != "c0088"]
                 embed.add_field(name=f"{make_team(self.info, heroes)}   {self.win} {team[1]['w']}  {self.lose} {team[1]['l']}", value="", inline=False)
                 
             await interaction.followup.send(embed=embed)
