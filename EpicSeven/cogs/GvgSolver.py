@@ -21,7 +21,7 @@ with open(name_dic_path, encoding="utf-8") as fp :
 
 # 將角色的icon放到名字前面 並組合三個角色的字串
 def make_team(info, heroses):
-    return "  ".join(f"<:{hero}:{info[hero]['IconId']}> {info[hero]['DisplayName']}" for hero in heroses)
+    return "  ".join(f"<:{hero}:{info[hero]['IconId']}> {info[hero]['DisplayName']}" for hero in heroses if hero)
 
 def is_author() :
     def predicate(ctx) :
@@ -109,7 +109,7 @@ class GvgSolver(Cog_Extension) :
             
             for team in teams :
                 # 將隊伍中的角色拆開
-                heroes = team[0].split(",")
+                heroes = [hero if hero != "c0088" else "" for hero in team[0].split(",")]
                 embed.add_field(name=f"{make_team(self.info, heroes)}   {self.win} {team[1]['w']}  {self.lose} {team[1]['l']}", value="", inline=False)
                 
             await interaction.followup.send(embed=embed)
