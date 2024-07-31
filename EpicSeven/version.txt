@@ -35,3 +35,11 @@ Author : Lyuuwu
 Changelog :
     - 修改Youtube.py中的 @task 的開始與結束
     - 修復更新patch的時候 不會更新bot中的version
+
+---
+
+Version : v1.04
+Release Date : 2024-07-31
+Author : Lyuuwu
+Changelog :
+    - 修復如果回傳的隊伍不足三人時，會出現錯誤代碼
