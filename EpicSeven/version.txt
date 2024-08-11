@@ -43,3 +43,12 @@ Release Date : 2024-07-31
 Author : Lyuuwu
 Changelog :
     - 修復如果回傳的隊伍不足三人時，會出現錯誤代碼
+
+---
+
+Version : v1.05
+Release Date : 2024-08-11
+Author : Lyuuwu
+Changelog :
+    - 更改GvgSolver.py的拿json的方式，不用讀取本地資料
+    - 新增簡易模擬抽卡
