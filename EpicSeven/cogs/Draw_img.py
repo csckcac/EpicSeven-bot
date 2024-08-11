@@ -89,7 +89,7 @@ class Draw_img(Cog_Extension) :
     @app_commands.describe(image_links="圖片連結 多個連結請以空格隔開")
     @app_commands.guilds(setdata["Discord-Server-Id"]["main"], setdata["Discord-Server-Id"]["test"])
     async def remove(self, interaction, image_links : str) :
-        interaction.response.defer()
+        await interaction.response.defer()
         # 打開圖庫
         images_data = await self.load_json(self.file)
         
@@ -112,6 +112,7 @@ class Draw_img(Cog_Extension) :
         # 如果有連結不存在 通知使用者連結錯誤
         if not_find :
             await interaction.followup.send(f"刪除完畢!\nbot 沒有找到以下圖片 {not_find} 請檢查連結是否正確")
+            return
         
         await interaction.followup.send("刪除完畢!")
     
