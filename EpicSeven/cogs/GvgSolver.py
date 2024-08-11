@@ -1,23 +1,19 @@
 import discord
 import aiohttp
+import requests
 import json
 from discord import app_commands
 from discord.app_commands import Choice
 from discord.ext import commands
 from core.classes import Cog_Extension
 
-info_path = "EpicSeven/data/GvgSolver/info.json"
-name_dic_path = "EpicSeven/data/GvgSolver/name-to-code.json"
 bot = commands.Bot(command_prefix='/', intents=discord.Intents.all())
 
 with open("EpicSeven/data/BasicSetting/setting.json", encoding="utf-8") as jset :
     setdata = json.load(jset)
-   
-with open(info_path, encoding="utf-8") as fp :
-    info = json.load(fp)
-        
-with open(name_dic_path, encoding="utf-8") as fp :
-    name_dic = json.load(fp)
+
+info = requests.get(url="https://raw.githubusercontent.com/Lyuuwu/EpicSeven-bot/master/EpicSeven/data/GvgSolver/info.json").json()
+name_dic = requests.get(url="https://raw.githubusercontent.com/Lyuuwu/EpicSeven-bot/master/EpicSeven/data/GvgSolver/name-to-code.json").json()
 
 # 將角色的icon放到名字前面 並組合三個角色的字串
 def make_team(info, heroses):
@@ -70,7 +66,7 @@ class GvgSolver(Cog_Extension) :
     
     @app_commands.command(description="GVG進攻解陣(支援遊戲內名稱、角色簡稱、英文名稱)")
     @app_commands.describe(hero1 = "選擇 一個英雄(使用滑鼠左鍵 或 鍵盤ENTER鍵，手機的話用點的)", hero2 = "選擇 一個英雄(使用滑鼠左鍵 或 鍵盤ENTER鍵，手機的話用點的)", hero3 = "選擇 一個英雄(使用滑鼠左鍵 或 鍵盤ENTER鍵，手機的話用點的)")
-    @app_commands.guilds(setdata["Discord-Server-Id"]["main"], setdata["Discord-Server-Id"]["test"])
+    @app_commands.guilds(setdata["Discord-Server-Id"]["main"])
     @app_commands.autocomplete(hero1 = name_autocomplete, hero2 = name_autocomplete, hero3 = name_autocomplete)
     async def solve_gvg(self, interaction : discord.Interaction, hero1 : str, hero2 : str, hero3 : str) :
         await interaction.response.defer()
@@ -118,126 +114,10 @@ class GvgSolver(Cog_Extension) :
             await interaction.followup.send(e)    
     
     @app_commands.command(
-        name = "modify_hero_info",
-        description = "新增或修改英雄資訊",
-    )
-    @app_commands.describe(
-        code="英雄的編碼(以原版解陣網站為主)",
-        optionname="選項顯示的文字 格視為 遊戲內中文名稱 | 遊戲內英文名稱", 
-        displayname="隊伍中顯示的名稱 格式為 遊戲內中文名稱",
-        iconid="隊伍中顯示的圖示",
-        rarity="稀有度(星數)",
-        element="屬性"
-        )
-    @app_commands.guilds(setdata["Discord-Server-Id"]["main"], setdata["Discord-Server-Id"]["test"])
-    @is_author()
-    async def modify_hero_info(self, interaction, code : str, optionname : str, displayname : str, iconid : str, rarity : int, element : str) :
-        await interaction.response.defer()
-        
-        try :
-            self.info[code] = {
-                "OptionName" : optionname,
-                "DisplayName" : displayname,
-                "IconId" : iconid,
-                "rarity" : rarity,
-                "element" : element
-            }
-            
-            await self.save_json(info_path, self.info)
-            
-            await interaction.followup.send("完成變更!!")
-        except Exception as e :
-            await interaction.followup.send(f"發生 {e} 的錯誤!\n請再試一次 >.<")
-    
-    @app_commands.command(
-        name="remove_hero_info",
-        description="刪除英雄資訊"
-    )
-    @app_commands.describe(code="英雄的編碼(以原版解陣網站為主)")
-    @app_commands.guilds(setdata["Discord-Server-Id"]["main"], setdata["Discord-Server-Id"]["test"])
-    @is_author()
-    async def remove_hero_info(self, interaction, code : str) :
-        await interaction.response.defer()
-
-        try :
-            if code in self.info :
-                self.info.pop(code)
-                await self.save_json(info_path, self.info)
-                await interaction.followup.send(f"完成刪除{code}!")
-            else :
-                await interaction.followup.send(f"找不到 {code} ! 請再試一次 >.<")
-        except Exception as e :
-            await interaction.followup.send(f"發生 {e} 的錯誤!\n請再試一次 >.<")
-            
-    @app_commands.command(
-        name="add_name",
-        description="增加選項可接受的名稱 names 支援多組名稱 請用空格隔開 code為該英雄的編碼"
-    )
-    @app_commands.describe(names="英雄的名稱或簡稱", code="英雄的編碼(以原版解陣網站為主)")
-    @app_commands.guilds(setdata["Discord-Server-Id"]["main"], setdata["Discord-Server-Id"]["test"])
-    @is_author()
-    async def add_name(self, interaction, names : str, code : str) :
-        await interaction.response.defer()
-        
-        try :
-            if code not in self.info :
-                await interaction.followup.send(f"目前的英雄資訊沒有 {code} 請先更新英雄資訊!")
-                return
-
-            split = names.split(' ')
-            self.name_dic.update({name : code for name in split})
-            await self.save_json(name_dic_path, self.name_dic)
-            await interaction.followup.send(f"完成 {code} 的更新!")
-        except Exception as e :
-            await interaction.followup.send(f"發生 {e} 的錯誤!\n請再試一次 >.<")
-            
-    @app_commands.command(
-        name="remove_name",
-        description="刪除選項可接受的名稱 names 支援多組名稱 請用空格隔開"
-    )
-    @app_commands.describe(names="英雄的名稱或簡稱")
-    @app_commands.guilds(setdata["Discord-Server-Id"]["main"], setdata["Discord-Server-Id"]["test"])
-    @is_author()
-    async def remove_name(self, interaction, names : str) :
-        await interaction.response.defer()
-        
-        try :
-            split = names.split()
-            unvalid = [name for name in split if self.name_dic.pop(name, None) is None]
-            
-            await self.save_json(name_dic_path, self.name_dic)
-            
-            if len(unvalid) == 0 :
-                await interaction.followup.send("完成刪除!!")
-            else :
-                await interaction.followup.send(f"{unvalid} 刪除失敗，原因為不在資料中，請再試一次!")   
-        except Exception as e :
-            await interaction.followup.send(f"發生 {e} 的錯誤!\n請再試一次 >.<")
-            
-    @app_commands.command(
-        name="remove_all_name",
-        description="刪除全部編碼為code的名稱 支援多組code刪除 多組code請用空格隔開"
-    )
-    @app_commands.describe(code="英雄的編碼(以原版解陣網站為主)")
-    @app_commands.guilds(setdata["Discord-Server-Id"]["main"], setdata["Discord-Server-Id"]["test"])
-    @is_author()
-    async def remove_all_name(self, interaction, code : str) :
-        await interaction.response.defer()
-        
-        try :
-            split = code.split()
-            self.name_dic = {n : c for n, c in self.name_dic.items() if c not in split}
-            
-            await self.save_json(name_dic_path, self.name_dic)
-            await interaction.followup.send(f"完成刪除!!")
-        except Exception as e :
-            await interaction.followup.send(f"發生 {e} 的錯誤!\n請再試一次 >.<")
-            
-    @app_commands.command(
         name="gvg_helper",
         description="GVG進攻解陣指令 - 使用說明"
     )
-    @app_commands.guilds(setdata["Discord-Server-Id"]["main"], setdata["Discord-Server-Id"]["test"])
+    @app_commands.guilds(setdata["Discord-Server-Id"]["main"])
     async def gvg_helper(self, interaction) :
         try :
             embed1 = discord.Embed(title="GVG進攻陣容指令 - 使用說明")
@@ -276,7 +156,37 @@ class GvgSolver(Cog_Extension) :
             await interaction.response.send_message(embeds=(embed1, embed2, embed3, embed4, embed5, embed6, embed7, embed8, embed9, embed10))
         except Exception as e :
             await interaction.response.send_message(e)
-    
+            
+    @app_commands.command(
+        name="update_info",
+        description="更新英雄資訊"
+    )
+    @app_commands.guilds(setdata["Discord-Server-Id"]["main"])
+    async def update_info(self, interaction) :
+        await interaction.response.defer()
+        
+        async with aiohttp.ClientSession() as session :
+            async with session.get("https://raw.githubusercontent.com/Lyuuwu/EpicSeven-bot/master/EpicSeven/data/GvgSolver/info.json") as r :
+                try :
+                    if r.status == 200 :
+                        self.info = await r.json(content_type='text/plain', encoding="utf-8")
+                    else :
+                        await interaction.followup.send("發生錯誤! 請再試一次 >.<")
+                        return
+                except Exception as e :
+                    await interaction.followup.send(e)
+                    
+            async with session.get("https://raw.githubusercontent.com/Lyuuwu/EpicSeven-bot/master/EpicSeven/data/GvgSolver/name-to-code.json") as r :
+                try :
+                    if r.status == 200 :
+                        self.name_dic = await r.json(content_type='text/plain', encoding='utf-8')
+                    else :
+                        await interaction.followup.send("發生錯誤! 請再試一次 >.<")
+                        return
+                except Exception as e :
+                    await interaction.followup.send(e)
+                        
+        await interaction.followup.send("更新完成!")
     
 async def setup(bot) :
     await bot.add_cog(GvgSolver(bot), guilds=[discord.Object(id = setdata["Discord-Server-Id"]["main"]), discord.Object(id = setdata["Discord-Server-Id"]["test"])])
