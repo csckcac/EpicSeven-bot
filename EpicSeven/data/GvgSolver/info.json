@@ -2308,5 +2308,12 @@
         "IconId": "1256156930309754951",
         "rarity": 5,
         "element": "fire"
+    },
+    "c5111" : {
+        "OptionName" : "慶典艾妲 | Festive Eda",
+        "DisplayName" : "慶典艾妲",
+        "IconId" : "1272383351910567998",
+        "rarity" : 5,
+        "element" : "fire"
     }
 }
