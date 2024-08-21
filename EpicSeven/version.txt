@@ -52,3 +52,8 @@ Author : Lyuuwu
 Changelog :
     - 更改GvgSolver.py的拿json的方式，不用讀取本地資料
     - 新增簡易模擬抽卡
+
+Release Date : 2024-08-21
+Author : Lyuuwu
+Changelog :
+    - GVG進攻隊伍查詢 新增網站連結已查看更多隊伍
