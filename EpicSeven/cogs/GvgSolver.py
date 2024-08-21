@@ -24,6 +24,10 @@ def is_author() :
         return ctx.message.author.id in setdata["Author-Id"]
     return app_commands.check(predicate)
 
+def extract_Eng(name : str) :
+    split = name.split('|')
+    return split[1].strip() if len(split) > 1 else name.strip()
+
 class GvgSolver(Cog_Extension) :
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -107,7 +111,16 @@ class GvgSolver(Cog_Extension) :
                 # 將隊伍中的角色拆開
                 heroes = [hero for hero in team[0].split(",") if hero != "c0088"]
                 embed.add_field(name=f"{make_team(self.info, heroes)}   {self.win} {team[1]['w']}  {self.lose} {team[1]['l']}", value="", inline=False)
-                
+            
+            EngName = [ info[hero1]["OptionName"], info[hero2]["OptionName"], info[hero3]["OptionName"] ]
+            EngName = [ extract_Eng(hero) for hero in EngName ]
+            EngName = [ name.replace(" ", "%20") for name in EngName]
+            
+            link = "https://fribbels.github.io/e7/gw-meta.html?def=" + ','.join(EngName)
+            
+            embed.add_field(name="", value="", inline=False)
+            embed.add_field(name="更多進攻陣容:", value=link, inline=False)
+            
             await interaction.followup.send(embed=embed)
             
         except Exception as e :
