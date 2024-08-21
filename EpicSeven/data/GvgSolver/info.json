@@ -2315,5 +2315,12 @@
         "IconId" : "1272383351910567998",
         "rarity" : 5,
         "element" : "fire"
+    },
+    "c2113" : {
+        "OptionName" : "蒼芎伊莉娜芙 | Empyrean Ilynav",
+        "DisplayName" : "蒼芎伊莉娜芙",
+        "IconId" : "1275732726732947539",
+        "rarity" : 5,
+        "element" : "light"
     }
 }
