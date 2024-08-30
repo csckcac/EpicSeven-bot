@@ -2322,5 +2322,12 @@
         "IconId" : "1275732726732947539",
         "rarity" : 5,
         "element" : "light"
+    },
+    "c1163" : {
+        "OptionName" : "弗莉達 | Frida",
+        "DisplayName" : "弗莉達",
+        "IconId" : "1279035086322536489",
+        "rarity" : 5,
+        "element" : "water"
     }
 }
