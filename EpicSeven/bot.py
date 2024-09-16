@@ -13,9 +13,9 @@ RED = "\033[91m"
 RESET = "\033[0m"
 
 Activity = discord.Activity(
-    name = f"宇宙神遊 - 第七史詩",
+    name = f"宇宙神遊 - 第七史詩(團長)",
     type = discord.ActivityType.playing,
-    details = f"現在版本: {setdata['version']}",
+    state = f"現在版本: {setdata['version']}",
 )
 bot = commands.Bot(command_prefix='/', intents=discord.Intents.all(), activity=Activity)
 
@@ -93,14 +93,6 @@ async def quit(ctx) :
 @bot.event
 async def on_ready():
     print(f"{GREEN}目前登入身份 --> {bot.user}{RESET}")
-
-@bot.event
-async def on_connect() :
-    print(f"{GREEN}BOT 已連線{RESET}")
-
-@bot.event
-async def on_disconnect() :
-    print(f"{RED}BOT 已斷線{RESET}")
     
 async def main():
     async with bot:
