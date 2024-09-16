@@ -2,12 +2,22 @@ import discord
 import asyncio
 import os
 import json
+import time
 from discord.ext import commands
 
 with open("EpicSeven/data/BasicSetting/setting.json", encoding="utf-8") as jset :
     setdata = json.load(jset)
 
-bot = commands.Bot(command_prefix='/', intents=discord.Intents.all(), activity=discord.Game(name="宇宙神遊 - 第七史詩"))
+GREEN = "\033[92m"
+RED = "\033[91m"
+RESET = "\033[0m"
+
+Activity = discord.Activity(
+    name = f"宇宙神遊 - 第七史詩",
+    type = discord.ActivityType.playing,
+    details = f"現在版本: {setdata['version']}",
+)
+bot = commands.Bot(command_prefix='/', intents=discord.Intents.all(), activity=Activity)
 
 async def load_cog():
     for filename in os.listdir("EpicSeven/cogs") :
@@ -75,18 +85,40 @@ async def reload_all(ctx) :
 async def quit(ctx) :
     try :
         await ctx.send("bot已下線")
+        print(f"{RED}使用指令下線{RESET}")
         await ctx.bot.close()
     except Exception as e :
         await ctx.send(e)
 
 @bot.event
 async def on_ready():
-    print(f"目前登入身份 --> {bot.user}")
+    print(f"{GREEN}目前登入身份 --> {bot.user}{RESET}")
 
+@bot.event
+async def on_connect() :
+    print(f"{GREEN}BOT 已連線{RESET}")
+
+@bot.event
+async def on_disconnect() :
+    print(f"{RED}BOT 已斷線{RESET}")
+    
 async def main():
     async with bot:
         await load_cog()
-        await bot.start(setdata["TOKEN"])
+        try:
+            await bot.start(setdata["TOKEN-TEST"])
+        except discord.errors.LoginFailure:
+            print(f"{RED}登錄失敗：請檢查您的 TOKEN 是否正確{RESET}")
+        except discord.errors.HTTPException as e:
+            print(f"{RED}HTTP 錯誤：無法連接到 Discord 服務器 (錯誤代碼: {e.status}){RESET}")
+        except asyncio.exceptions.TimeoutError:
+            print(f"{RED}連接超時：無法在指定時間內連接到 Discord 服務器{RESET}")
+        except Exception as e:
+            print(f"{RED}發生未知錯誤：{str(e)}{RESET}")
+        finally:
+            if bot.is_closed():
+                print(f"{RED}BOT 已關閉{RESET}")
+        
 
 if __name__ == "__main__":
     asyncio.run(main())
