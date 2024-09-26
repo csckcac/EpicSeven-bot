@@ -2,7 +2,6 @@ import discord
 import asyncio
 import os
 import json
-import time
 from discord.ext import commands
 
 with open("EpicSeven/data/BasicSetting/setting.json", encoding="utf-8") as jset :
@@ -98,7 +97,7 @@ async def main():
     async with bot:
         await load_cog()
         try:
-            await bot.start(setdata["TOKEN-TEST"])
+            await bot.start(setdata["TOKEN"])
         except discord.errors.LoginFailure:
             print(f"{RED}登錄失敗：請檢查您的 TOKEN 是否正確{RESET}")
         except discord.errors.HTTPException as e:
