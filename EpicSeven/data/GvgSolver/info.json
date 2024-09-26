@@ -2329,5 +2329,19 @@
         "IconId" : "1279035086322536489",
         "rarity" : 5,
         "element" : "water"
+    },
+    "c1158" : {
+        "OptionName" : "佩里斯 | Fenris",
+        "DisplayName" : "佩里斯",
+        "IconId" : "1288875238926581825",
+        "rarity" : 5,
+        "element" : "wind"
+    },
+    "c1153" : {
+        "OptionName" : "赫爾賽蒂 | Harsetti",
+        "DisplayName" : "赫爾賽蒂",
+        "IconId" : "1288875240851505283",
+        "rarity" : 5,
+        "element" : "dark"
     }
 }
