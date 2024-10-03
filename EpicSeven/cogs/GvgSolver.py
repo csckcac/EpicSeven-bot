@@ -36,22 +36,22 @@ class GvgSolver(Cog_Extension) :
         self.ElementIcon = { "fire" : "🔥", "water" : "💧", "wind" : "🌳", "light" : "✨", "dark" : "⚫"}
         self.win = "<:battle_pvp_icon_win:1255810029857013871>"
         self.lose = "<:battle_pvp_icon_lose:1255810014120251462>"
-        self.target_url = "https://krivpfvxi0.execute-api.us-west-2.amazonaws.com/dev/getDef"
+        self.target_url = "https://z4tfy2r5kc.execute-api.us-west-2.amazonaws.com/dev/getDef"
         self.headers = {
-                        "Sec-Ch-Ua": '"Not/A)Brand";v="8", "Chromium";v="126"',
-                        "Accept": "text/plain, */*; q=0.01",
-                        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-                        "Accept-Language": "zh-TW",
-                        "Sec-Ch-Ua-Mobile": "?0",
-                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.6478.57 Safari/537.36",
-                        "Sec-Ch-Ua-Platform": '"Windows"',
-                        "Origin": "https://fribbels.github.io",
-                        "Sec-Fetch-Site": "cross-site",
-                        "Sec-Fetch-Mode": "cors",
-                        "Sec-Fetch-Dest": "empty",
-                        "Referer": "https://fribbels.github.io/",
-                        "Accept-Encoding": "gzip, deflate, br",
-                        "Priority": "u=1, i"
+                        "Sec-Ch-Ua" : '"Not;A=Brand";v="24", "Chromium";v="128"',
+                        "Accept" : "text/plain, */*; q=0.01",
+                        "Sec-Ch-Ua-Platform": "Windows",
+                        "Accept-Language" : "zh-TW,zh;q=0.9",
+                        "Sec-Ch-Ua-Mobile" : "?0",
+                        "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.6613.120 Safari/537.36",
+                        "Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8",
+                        "Origin" : "https://fribbels.github.io",
+                        "Sec-Fetch-Site" : "cross-site",
+                        "Sec-Fetch-Mode" : "cors",
+                        "Sec-Fetch-Dest" : "empty",
+                        "Referer" : "https://fribbels.github.io/",
+                        "Accept-Encoding" : "gzip, deflate, br",
+                        "Priority" : "u=1, i"
                     }
 
     # autocomplete篩選
@@ -73,15 +73,14 @@ class GvgSolver(Cog_Extension) :
     @app_commands.guilds(setdata["Discord-Server-Id"]["main"])
     @app_commands.autocomplete(hero1 = name_autocomplete, hero2 = name_autocomplete, hero3 = name_autocomplete)
     async def solve_gvg(self, interaction : discord.Interaction, hero1 : str, hero2 : str, hero3 : str) :
-        await interaction.response.defer()
         # 發生重複選擇
         if (hero1 == hero2) or (hero1 == hero3) or (hero2 == hero3) :
-            await interaction.followup.send("不能有重複的選項!! 請再試一次!")
+            await interaction.response.send_message("不能有重複的選項!! 請再試一次!", ephemeral=True)
             return
         
         # 選擇錯誤: 直接輸入
         if (hero1 not in self.info) or (hero2 not in self.info) or (hero3 not in self.info) :
-            await interaction.followup.send("發生錯誤!! 請再試一次! 請注意要用選的") 
+            await interaction.response.send_message("發生錯誤!! 請再試一次! 請注意要用選的", ephemeral=True)
             return
         
         # 向目標伺服器請求
@@ -90,13 +89,13 @@ class GvgSolver(Cog_Extension) :
                 if r.status == 200 :
                     data_dic = await r.json(encoding="utf-8")
                 else :
-                    await interaction.followup.send("發生錯誤! 請再試一次 >.<")
+                    await interaction.response.send_message("發生錯誤! 請再試一次 >.<", ephemeral=True)
                     return
         
         try :
             # 沒有數據
             if "status" in data_dic and data_dic["status"] == "ERROR" :
-                await interaction.followup.send(f"目前紀錄沒有 {make_team(self.info, [hero1, hero2, hero3])} 的解法")
+                await interaction.response.send_message(f"目前紀錄沒有 {make_team(self.info, [hero1, hero2, hero3])} 的解法", ephemeral=True)
                 return
             
             # 排序 : 勝利場數降冪 取前20個
@@ -121,7 +120,7 @@ class GvgSolver(Cog_Extension) :
             embed.add_field(name="", value="", inline=False)
             embed.add_field(name="更多進攻陣容:", value=link, inline=False)
             
-            await interaction.followup.send(embed=embed)
+            await interaction.response.send_message(embed=embed)
             
         except Exception as e :
             await interaction.followup.send(e)    
