@@ -109,7 +109,11 @@ class GvgSolver(Cog_Extension) :
             for team in teams :
                 # 將隊伍中的角色拆開
                 heroes = [hero for hero in team[0].split(",") if hero != "c0088"]
-                embed.add_field(name=f"{make_team(self.info, heroes)}   {self.win} {team[1]['w']}  {self.lose} {team[1]['l']}", value="", inline=False)
+                total = (team[1]['w'] + team[1]['d'] + team[1]['l']) * 2
+                wins = team[1]['w'] * 2 + team[1]['d']
+                rate = float(wins / total)
+                print(rate)
+                embed.add_field(name=f"{make_team(self.info, heroes)}   {self.win} {team[1]['w']}  {self.lose} {team[1]['l']}  |  {rate:.1%}", value="", inline=False)
             
             EngName = [ info[hero1]["OptionName"], info[hero2]["OptionName"], info[hero3]["OptionName"] ]
             EngName = [ extract_Eng(hero) for hero in EngName ]
