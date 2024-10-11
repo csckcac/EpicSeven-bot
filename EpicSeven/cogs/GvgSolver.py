@@ -112,7 +112,6 @@ class GvgSolver(Cog_Extension) :
                 total = (team[1]['w'] + team[1]['d'] + team[1]['l']) * 2
                 wins = team[1]['w'] * 2 + team[1]['d']
                 rate = float(wins / total)
-                print(rate)
                 embed.add_field(name=f"{make_team(self.info, heroes)}   {self.win} {team[1]['w']}  {self.lose} {team[1]['l']}  |  {rate:.1%}", value="", inline=False)
             
             EngName = [ info[hero1]["OptionName"], info[hero2]["OptionName"], info[hero3]["OptionName"] ]
