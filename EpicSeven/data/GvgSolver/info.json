@@ -2343,5 +2343,12 @@
         "IconId" : "1288875240851505283",
         "rarity" : 5,
         "element" : "dark"
+    },
+    "c4158" : {
+        "OptionName" : "傳承雅蜜琪 | Inheritor Amiki",
+        "DisplayName" : "傳承雅蜜琪",
+        "IconId" : "1295395784757477397",
+        "rarity" : 3,
+        "element" : "water"
     }
 }
