@@ -126,7 +126,7 @@ class GvgSolver(Cog_Extension) :
             embed.add_field(name="", value="", inline=False)
             embed.add_field(name="更多進攻陣容:", value=link, inline=False)
             
-            await interaction.followup.sned(embed=embed)
+            await interaction.followup.send(embed=embed)
             
         except Exception as e :
             await interaction.followup.send(e)    
