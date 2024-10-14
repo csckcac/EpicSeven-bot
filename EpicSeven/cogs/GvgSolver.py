@@ -73,14 +73,16 @@ class GvgSolver(Cog_Extension) :
     @app_commands.guilds(setdata["Discord-Server-Id"]["main"])
     @app_commands.autocomplete(hero1 = name_autocomplete, hero2 = name_autocomplete, hero3 = name_autocomplete)
     async def solve_gvg(self, interaction : discord.Interaction, hero1 : str, hero2 : str, hero3 : str) :
+        await interaction.response.defer()
+        
         # 發生重複選擇
         if (hero1 == hero2) or (hero1 == hero3) or (hero2 == hero3) :
-            await interaction.response.send_message("不能有重複的選項!! 請再試一次!", ephemeral=True)
+            await interaction.followup.send("不能有重複的選項!! 請再試一次!")
             return
         
         # 選擇錯誤: 直接輸入
         if (hero1 not in self.info) or (hero2 not in self.info) or (hero3 not in self.info) :
-            await interaction.response.send_message("發生錯誤!! 請再試一次! 請注意要用選的", ephemeral=True)
+            await interaction.followup.send("發生錯誤!! 請再試一次! 請注意要用選的")
             return
         
         # 向目標伺服器請求
@@ -89,13 +91,13 @@ class GvgSolver(Cog_Extension) :
                 if r.status == 200 :
                     data_dic = await r.json(encoding="utf-8")
                 else :
-                    await interaction.response.send_message("發生錯誤! 請再試一次 >.<", ephemeral=True)
+                    await interaction.followup.send("發生錯誤! 請再試一次 >.<")
                     return
         
         try :
             # 沒有數據
             if "status" in data_dic and data_dic["status"] == "ERROR" :
-                await interaction.response.send_message(f"目前紀錄沒有 {make_team(self.info, [hero1, hero2, hero3])} 的解法", ephemeral=True)
+                await interaction.followup.send(f"目前紀錄沒有 {make_team(self.info, [hero1, hero2, hero3])} 的解法")
                 return
             
             # 排序 : 勝利場數降冪 取前20個
@@ -114,6 +116,7 @@ class GvgSolver(Cog_Extension) :
                 rate = float(wins / total)
                 embed.add_field(name=f"{make_team(self.info, heroes)}   {self.win} {team[1]['w']}  {self.lose} {team[1]['l']}  |  {rate:.1%}", value="", inline=False)
             
+            
             EngName = [ info[hero1]["OptionName"], info[hero2]["OptionName"], info[hero3]["OptionName"] ]
             EngName = [ extract_Eng(hero) for hero in EngName ]
             EngName = [ name.replace(" ", "%20") for name in EngName]
@@ -123,7 +126,7 @@ class GvgSolver(Cog_Extension) :
             embed.add_field(name="", value="", inline=False)
             embed.add_field(name="更多進攻陣容:", value=link, inline=False)
             
-            await interaction.response.send_message(embed=embed)
+            await interaction.followup.sned(embed=embed)
             
         except Exception as e :
             await interaction.followup.send(e)    
