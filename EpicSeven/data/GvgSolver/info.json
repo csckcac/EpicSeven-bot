@@ -2350,5 +2350,12 @@
         "IconId" : "1295395784757477397",
         "rarity" : 3,
         "element" : "water"
+    },
+    "c5110" : {
+        "OptionName" : "午時戲水芙蘭 | Afternoon Soak Flan",
+        "DisplayName" : "午時戲水芙蘭",
+        "IconId" : "1297902462631677962",
+        "rarity" : 5,
+        "element" : "fire"
     }
 }
