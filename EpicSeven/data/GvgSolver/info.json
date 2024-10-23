@@ -987,8 +987,8 @@
         "element": "fire"
     },
     "c4141": {
-        "OptionName": "聖炎的艾廷 | Holy Flame Adin",
-        "DisplayName": "聖炎的艾廷",
+        "OptionName": "聖炎的艾庭 | Holy Flame Adin",
+        "DisplayName": "聖炎的艾庭",
         "IconId": "1256177953159647345",
         "rarity": 3,
         "element": "fire"
@@ -1806,8 +1806,8 @@
         "element": "light"
     },
     "c4144": {
-        "OptionName": "救援者艾廷 | Savior Adin",
-        "DisplayName": "救援者艾廷",
+        "OptionName": "救援者艾庭 | Savior Adin",
+        "DisplayName": "救援者艾庭",
         "IconId": "1256171023846604810",
         "rarity": 3,
         "element": "light"
@@ -1841,8 +1841,8 @@
         "element": "wind"
     },
     "c4142": {
-        "OptionName": "清玄的艾廷 | Serene Purity Adin",
-        "DisplayName": "清玄的艾廷",
+        "OptionName": "清玄的艾庭 | Serene Purity Adin",
+        "DisplayName": "清玄的艾庭",
         "IconId": "1256177375973216286",
         "rarity": 3,
         "element": "water"
@@ -2149,8 +2149,8 @@
         "element": "dark"
     },
     "c4143": {
-        "OptionName": "新綠的艾廷 | Verdant Adin",
-        "DisplayName": "新綠的艾廷",
+        "OptionName": "新綠的艾庭 | Verdant Adin",
+        "DisplayName": "新綠的艾庭",
         "IconId": "1256178104347529286",
         "rarity": 3,
         "element": "wind"
