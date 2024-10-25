@@ -110,7 +110,7 @@ class GvgSolver(Cog_Extension) :
             
             for team in teams :
                 # 將隊伍中的角色拆開
-                heroes = [hero for hero in team[0].split(",") if hero != "c0088"]
+                heroes = [hero for hero in team[0].split(",") if hero in info]
                 total = (team[1]['w'] + team[1]['d'] + team[1]['l']) * 2
                 wins = team[1]['w'] * 2 + team[1]['d']
                 rate = float(wins / total)
