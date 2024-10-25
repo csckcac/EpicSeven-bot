@@ -12,7 +12,7 @@ RED = "\033[91m"
 RESET = "\033[0m"
 
 Activity = discord.Activity(
-    name = f"宇宙神遊 - 第七史詩(團長)",
+    name = f"宇宙神遊 - 第七史詩",
     type = discord.ActivityType.playing,
     state = f"現在版本: {setdata['version']}",
 )
@@ -97,7 +97,7 @@ async def main():
     async with bot:
         await load_cog()
         try:
-            await bot.start(setdata["TOKEN"])
+            await bot.start(setdata["TOKEN-TEST"])
         except discord.errors.LoginFailure:
             print(f"{RED}登錄失敗：請檢查您的 TOKEN 是否正確{RESET}")
         except discord.errors.HTTPException as e:
