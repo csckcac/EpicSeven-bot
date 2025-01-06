@@ -2357,5 +2357,40 @@
         "IconId" : "1297902462631677962",
         "rarity" : 5,
         "element" : "fire"
+    },
+    "c1060" : {
+        "OptionName" : "修尼爾 | Schniel",
+        "DisplayName" : "修尼爾",
+        "IconId" : "1325791983595425793",
+        "rarity" : 5,
+        "element" : "wind"
+    },
+    "c2126" : {
+        "OptionName" : "小惡魔路雅 | Hellion Lua",
+        "DisplayName" : "小惡魔路雅",
+        "IconId" : "1325791982240399441",
+        "rarity" : 5,
+        "element" : "dark"
+    },
+    "c6020" : {
+        "OptionName" : "西風處刑者修里 | Westwind Executioner Schuri",
+        "DisplayName" : "西風處刑者修里",
+        "IconId" : "1325791980600692808",
+        "rarity" : 4,
+        "element" : "dark"
+    },
+    "c1162" : {
+        "OptionName" : "小小賽娜 | Young Senya",
+        "DisplayName" : "小小賽娜",
+        "IconId" : "1325793148479471676",
+        "rarity" : 5,
+        "element" : "wind"
+    },
+    "c2128" : {
+        "OptionName" : "旁觀者和英 | Bystander Hwayoung",
+        "DisplayName" : "旁觀者和英",
+        "IconId" : "1325793150765236287",
+        "rarity" : 5,
+        "element" : "dark"
     }
 }
