@@ -2392,5 +2392,19 @@
         "IconId" : "1325793150765236287",
         "rarity" : 5,
         "element" : "dark"
+    },
+    "c2165" : {
+        "OptionName" : "轉學生艾庭 | New Kid Adin",
+        "DisplayName" : "轉學生艾庭",
+        "IconId" : "1339652854473822229",
+        "rarity" : 4,
+        "element" : "dark"
+    },
+    "c2125" : {
+        "OptionName" : "孤狼沛伊拉 | Lone Wolf Peira",
+        "DisplayName" : "孤狼沛伊拉",
+        "IconId" : "1339652017244602448",
+        "rarity" : 5,
+        "element" : "dark"
     }
 }
