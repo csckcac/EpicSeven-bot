@@ -2309,102 +2309,123 @@
         "rarity": 5,
         "element": "fire"
     },
-    "c5111" : {
-        "OptionName" : "慶典艾妲 | Festive Eda",
-        "DisplayName" : "慶典艾妲",
-        "IconId" : "1272383351910567998",
-        "rarity" : 5,
-        "element" : "fire"
+    "c5111": {
+        "OptionName": "慶典艾妲 | Festive Eda",
+        "DisplayName": "慶典艾妲",
+        "IconId": "1272383351910567998",
+        "rarity": 5,
+        "element": "fire"
     },
-    "c2113" : {
-        "OptionName" : "蒼芎伊莉娜芙 | Empyrean Ilynav",
-        "DisplayName" : "蒼芎伊莉娜芙",
-        "IconId" : "1275732726732947539",
-        "rarity" : 5,
-        "element" : "light"
+    "c2113": {
+        "OptionName": "蒼芎伊莉娜芙 | Empyrean Ilynav",
+        "DisplayName": "蒼芎伊莉娜芙",
+        "IconId": "1275732726732947539",
+        "rarity": 5,
+        "element": "light"
     },
-    "c1163" : {
-        "OptionName" : "弗莉達 | Frida",
-        "DisplayName" : "弗莉達",
-        "IconId" : "1279035086322536489",
-        "rarity" : 5,
-        "element" : "water"
+    "c1163": {
+        "OptionName": "弗莉達 | Frida",
+        "DisplayName": "弗莉達",
+        "IconId": "1279035086322536489",
+        "rarity": 5,
+        "element": "water"
     },
-    "c1158" : {
-        "OptionName" : "佩里斯 | Fenris",
-        "DisplayName" : "佩里斯",
-        "IconId" : "1288875238926581825",
-        "rarity" : 5,
-        "element" : "wind"
+    "c1158": {
+        "OptionName": "佩里斯 | Fenris",
+        "DisplayName": "佩里斯",
+        "IconId": "1288875238926581825",
+        "rarity": 5,
+        "element": "wind"
     },
-    "c1153" : {
-        "OptionName" : "赫爾賽蒂 | Harsetti",
-        "DisplayName" : "赫爾賽蒂",
-        "IconId" : "1288875240851505283",
-        "rarity" : 5,
-        "element" : "dark"
+    "c1153": {
+        "OptionName": "赫爾賽蒂 | Harsetti",
+        "DisplayName": "赫爾賽蒂",
+        "IconId": "1288875240851505283",
+        "rarity": 5,
+        "element": "dark"
     },
-    "c4158" : {
-        "OptionName" : "傳承雅蜜琪 | Inheritor Amiki",
-        "DisplayName" : "傳承雅蜜琪",
-        "IconId" : "1295395784757477397",
-        "rarity" : 3,
-        "element" : "water"
+    "c4158": {
+        "OptionName": "傳承雅蜜琪 | Inheritor Amiki",
+        "DisplayName": "傳承雅蜜琪",
+        "IconId": "1295395784757477397",
+        "rarity": 3,
+        "element": "water"
     },
-    "c5110" : {
-        "OptionName" : "午時戲水芙蘭 | Afternoon Soak Flan",
-        "DisplayName" : "午時戲水芙蘭",
-        "IconId" : "1297902462631677962",
-        "rarity" : 5,
-        "element" : "fire"
+    "c5110": {
+        "OptionName": "午時戲水芙蘭 | Afternoon Soak Flan",
+        "DisplayName": "午時戲水芙蘭",
+        "IconId": "1297902462631677962",
+        "rarity": 5,
+        "element": "fire"
     },
-    "c1060" : {
-        "OptionName" : "修尼爾 | Schniel",
-        "DisplayName" : "修尼爾",
-        "IconId" : "1325791983595425793",
-        "rarity" : 5,
-        "element" : "wind"
+    "c1060": {
+        "OptionName": "修尼爾 | Schniel",
+        "DisplayName": "修尼爾",
+        "IconId": "1325791983595425793",
+        "rarity": 5,
+        "element": "wind"
     },
-    "c2126" : {
-        "OptionName" : "小惡魔路雅 | Hellion Lua",
-        "DisplayName" : "小惡魔路雅",
-        "IconId" : "1325791982240399441",
-        "rarity" : 5,
-        "element" : "dark"
+    "c2126": {
+        "OptionName": "小惡魔路雅 | Hellion Lua",
+        "DisplayName": "小惡魔路雅",
+        "IconId": "1325791982240399441",
+        "rarity": 5,
+        "element": "dark"
     },
-    "c6020" : {
-        "OptionName" : "西風處刑者修里 | Westwind Executioner Schuri",
-        "DisplayName" : "西風處刑者修里",
-        "IconId" : "1325791980600692808",
-        "rarity" : 4,
-        "element" : "dark"
+    "c6020": {
+        "OptionName": "西風處刑者修里 | Westwind Executioner Schuri",
+        "DisplayName": "西風處刑者修里",
+        "IconId": "1325791980600692808",
+        "rarity": 4,
+        "element": "dark"
     },
-    "c1162" : {
-        "OptionName" : "小小賽娜 | Young Senya",
-        "DisplayName" : "小小賽娜",
-        "IconId" : "1325793148479471676",
-        "rarity" : 5,
-        "element" : "wind"
+    "c1162": {
+        "OptionName": "小小賽娜 | Young Senya",
+        "DisplayName": "小小賽娜",
+        "IconId": "1325793148479471676",
+        "rarity": 5,
+        "element": "wind"
     },
-    "c2128" : {
-        "OptionName" : "旁觀者和英 | Bystander Hwayoung",
-        "DisplayName" : "旁觀者和英",
-        "IconId" : "1325793150765236287",
-        "rarity" : 5,
-        "element" : "dark"
+    "c2128": {
+        "OptionName": "旁觀者和英 | Bystander Hwayoung",
+        "DisplayName": "旁觀者和英",
+        "IconId": "1325793150765236287",
+        "rarity": 5,
+        "element": "dark"
     },
-    "c2165" : {
-        "OptionName" : "轉學生艾庭 | New Kid Adin",
-        "DisplayName" : "轉學生艾庭",
-        "IconId" : "1339652854473822229",
-        "rarity" : 4,
-        "element" : "dark"
+    "c2165": {
+        "OptionName": "轉學生艾庭 | New Kid Adin",
+        "DisplayName": "轉學生艾庭",
+        "IconId": "1339652854473822229",
+        "rarity": 4,
+        "element": "dark"
     },
-    "c2125" : {
-        "OptionName" : "孤狼沛伊拉 | Lone Wolf Peira",
-        "DisplayName" : "孤狼沛伊拉",
-        "IconId" : "1339652017244602448",
-        "rarity" : 5,
-        "element" : "dark"
+    "c2125": {
+        "OptionName": "孤狼沛伊拉 | Lone Wolf Peira",
+        "DisplayName": "孤狼沛伊拉",
+        "IconId": "1339652017244602448",
+        "rarity": 5,
+        "element": "dark"
+    },
+    "c1171": {
+        "OptionName": "兔菈玫 | Tori",
+        "DisplayName": "兔菈玫",
+        "IconId": "1365683569204265063",
+        "rarity": 5,
+        "element": "fire"
+    },
+    "c2124": {
+        "OptionName": "組長亞露嘉 | Boss Arunka",
+        "DisplayName": "組長亞露嘉",
+        "IconId": "1365683567685799996",
+        "rarity": 5,
+        "element": "light"
+    },
+    "c5070": {
+        "OptionName": "護衛隊長克勞烏 | Guard Captain Krau",
+        "DisplayName": "護衛隊長克勞烏",
+        "IconId": "1365683565668601910",
+        "rarity": 5,
+        "element": "fire"
     }
 }
