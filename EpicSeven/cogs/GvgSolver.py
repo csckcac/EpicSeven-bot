@@ -28,7 +28,6 @@ def extract_Eng(name : str) :
 class GvgSolver(Cog_Extension, Hero) :
     def __init__(self, bot):
         super().__init__(bot=bot)
-        self.ElementIcon = { "fire" : "🔥", "water" : "💧", "wind" : "🌳", "light" : "✨", "dark" : "⚫"}
         self.win = "<:battle_pvp_icon_win:1255810029857013871>"
         self.lose = "<:battle_pvp_icon_lose:1255810014120251462>"
         self.target_url = "https://z4tfy2r5kc.execute-api.us-west-2.amazonaws.com/dev/getDef"
