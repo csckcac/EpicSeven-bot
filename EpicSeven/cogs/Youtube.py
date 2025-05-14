@@ -8,8 +8,8 @@ with open("EpicSeven/data/BasicSetting/setting.json", encoding="utf-8") as jset 
     setdata = json.load(jset)
 
 class Youtube(Cog_Extension):
-  def __init__(self, *args, **kwargs):
-    super().__init__(*args, **kwargs)
+  def __init__(self, bot):
+    super().__init__(bot=bot)
     self.channels = {
       "第七史詩": "https://youtube.com/@EpicSevenTW"
     }

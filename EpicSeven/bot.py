@@ -97,7 +97,7 @@ async def main():
     async with bot:
         await load_cog()
         try:
-            await bot.start(setdata["TOKEN"])
+            await bot.start(setdata["TOKEN-TEST"])
         except discord.errors.LoginFailure:
             print(f"{RED}登錄失敗：請檢查您的 TOKEN 是否正確{RESET}")
         except discord.errors.HTTPException as e:
