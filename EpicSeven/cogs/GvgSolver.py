@@ -1,19 +1,16 @@
 import discord
 import aiohttp
-import requests
 import json
 from discord import app_commands
 from discord.app_commands import Choice
 from discord.ext import commands
 from core.classes import Cog_Extension
+from core.Hero import Hero
 
 bot = commands.Bot(command_prefix='/', intents=discord.Intents.all())
 
 with open("EpicSeven/data/BasicSetting/setting.json", encoding="utf-8") as jset :
     setdata = json.load(jset)
-
-info = requests.get(url="https://raw.githubusercontent.com/Lyuuwu/EpicSeven-bot/master/EpicSeven/data/GvgSolver/info.json").json()
-name_dic = requests.get(url="https://raw.githubusercontent.com/Lyuuwu/EpicSeven-bot/master/EpicSeven/data/GvgSolver/name-to-code.json").json()
 
 # 將角色的icon放到名字前面 並組合三個角色的字串
 def make_team(info, heroses):
@@ -28,11 +25,9 @@ def extract_Eng(name : str) :
     split = name.split('|')
     return split[1].strip() if len(split) > 1 else name.strip()
 
-class GvgSolver(Cog_Extension) :
+class GvgSolver(Cog_Extension, Hero) :
     def __init__(self, bot):
         super().__init__(bot=bot)
-        self.info = info
-        self.name_dic = name_dic
         self.ElementIcon = { "fire" : "🔥", "water" : "💧", "wind" : "🌳", "light" : "✨", "dark" : "⚫"}
         self.win = "<:battle_pvp_icon_win:1255810029857013871>"
         self.lose = "<:battle_pvp_icon_lose:1255810014120251462>"
@@ -54,24 +49,10 @@ class GvgSolver(Cog_Extension) :
                         "Priority" : "u=1, i"
                     }
 
-    # autocomplete篩選
-    async def name_autocomplete(self, interaction : discord.Interaction, input : str) -> list[Choice[str]] :       
-        matching_val = {val for input_val, val in name_dic.items() if input.lower() in input_val.lower()}
-        matching_val = list(matching_val)[:25] # 至多25個角色選擇
-        
-        # 回傳 顯示文字與回傳數值
-        return [
-            Choice(
-                name = f"{self.ElementIcon[self.info[val]['element'] ]} {self.info[val]['OptionName']} ({self.info[val]['rarity']})",
-                value = val
-            )
-            for val in matching_val
-        ]
-    
     @app_commands.command(description="GVG進攻解陣(支援遊戲內名稱、角色簡稱、英文名稱)")
     @app_commands.describe(hero1 = "選擇 一個英雄(使用滑鼠左鍵 或 鍵盤ENTER鍵，手機的話用點的)", hero2 = "選擇 一個英雄(使用滑鼠左鍵 或 鍵盤ENTER鍵，手機的話用點的)", hero3 = "選擇 一個英雄(使用滑鼠左鍵 或 鍵盤ENTER鍵，手機的話用點的)")
     @app_commands.guilds(setdata["Discord-Server-Id"]["main"])
-    @app_commands.autocomplete(hero1 = name_autocomplete, hero2 = name_autocomplete, hero3 = name_autocomplete)
+    @app_commands.autocomplete(hero1 = Hero.SelectHero, hero2 = Hero.SelectHero, hero3 = Hero.SelectHero)
     async def solve_gvg(self, interaction : discord.Interaction, hero1 : str, hero2 : str, hero3 : str) :
         await interaction.response.defer()
         
@@ -110,14 +91,14 @@ class GvgSolver(Cog_Extension) :
             
             for team in teams :
                 # 將隊伍中的角色拆開
-                heroes = [hero for hero in team[0].split(",") if hero in info]
+                heroes = [hero for hero in team[0].split(",") if hero in self.info]
                 total = (team[1]['w'] + team[1]['d'] + team[1]['l']) * 2
                 wins = team[1]['w'] * 2 + team[1]['d']
                 rate = float(wins / total)
                 embed.add_field(name=f"{make_team(self.info, heroes)}   {self.win} {team[1]['w']}  {self.lose} {team[1]['l']}  |  {rate:.1%}", value="", inline=False)
             
             
-            EngName = [ info[hero1]["OptionName"], info[hero2]["OptionName"], info[hero3]["OptionName"] ]
+            EngName = [ self.info[hero1]["OptionName"], self.info[hero2]["OptionName"], self.info[hero3]["OptionName"] ]
             EngName = [ extract_Eng(hero) for hero in EngName ]
             EngName = [ name.replace(" ", "%20") for name in EngName]
             
