@@ -29,8 +29,8 @@ def extract_Eng(name : str) :
     return split[1].strip() if len(split) > 1 else name.strip()
 
 class GvgSolver(Cog_Extension) :
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, bot):
+        super().__init__(bot=bot)
         self.info = info
         self.name_dic = name_dic
         self.ElementIcon = { "fire" : "🔥", "water" : "💧", "wind" : "🌳", "light" : "✨", "dark" : "⚫"}

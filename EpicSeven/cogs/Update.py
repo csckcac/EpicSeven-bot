@@ -14,8 +14,8 @@ def is_author() :
     return commands.check(predicate)
 
 class Update(Cog_Extension) :
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, bot):
+        super().__init__(bot=bot)
     
     @is_author()
     @app_commands.command(

@@ -8,8 +8,8 @@ with open("EpicSeven/data/BasicSetting/setting.json", encoding="utf-8") as jset 
     setdata = json.load(jset)
 
 class Banner(Cog_Extension) :
-    def __init__(self, *args, **kwargs) :
-        super().__init__(*args, **kwargs)
+    def __init__(self, bot) :
+        super().__init__(bot=bot)
     
     @app_commands.command(name="summon", description="抽卡! 誰出彩誰是狗")
     @app_commands.guilds(setdata["Discord-Server-Id"]["main"], setdata["Discord-Server-Id"]["test"])

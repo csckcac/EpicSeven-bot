@@ -3,7 +3,8 @@ import json
 import aiofiles
 
 class Cog_Extension(commands.Cog) :
-    def __init__(self, bot) :
+    def __init__(self, *args, bot=None, **kwargs):
+        super().__init__(*args, **kwargs)
         self.bot = bot
         
     async def load_json(self, file_path) :
