@@ -8,6 +8,10 @@ class Cog_Extension(commands.Cog) :
         self.bot = bot
         
     async def load_json(self, file_path) :
+        folder = os.path.dirname(file_path)
+        if not os.path.exists(folder):
+            os.makedirs(folder)
+        
         if not os.path.exists(file_path) :
             return None
         
