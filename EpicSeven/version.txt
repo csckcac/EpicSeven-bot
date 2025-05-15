@@ -57,3 +57,12 @@ Release Date : 2024-08-21
 Author : Lyuuwu
 Changelog :
     - GVG進攻隊伍查詢 新增網站連結已查看更多隊伍
+
+---
+
+Version : v1.06
+Release Date : 2025-05-15
+Author : Lyuuwu
+Changelog :
+    - 新增管理本地GVG解陣資料庫
+    - 新增查詢GVG進攻隊伍 網路查詢+本地查詢
