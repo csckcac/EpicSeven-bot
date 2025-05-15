@@ -2427,5 +2427,12 @@
         "IconId": "1365683565668601910",
         "rarity": 5,
         "element": "fire"
+    },
+    "c1168": {
+        "OptionName": "利納柯 | Rinak",
+        "DisplayName": "利納柯",
+        "IconId": "1372593957489344593",
+        "rarity": 5,
+        "element": "wind"
     }
 }
