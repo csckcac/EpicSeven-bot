@@ -2,7 +2,6 @@ import discord
 import aiohttp
 import json
 from discord import app_commands
-from discord.app_commands import Choice
 from discord.ext import commands
 from core.classes import Cog_Extension
 from core.Hero import Hero
@@ -25,6 +24,16 @@ def extract_Eng(name : str) :
     split = name.split('|')
     return split[1].strip() if len(split) > 1 else name.strip()
 
+def MergeTeam(team1, team2) -> None:
+    if "data" not in team1 :
+        team1["data"] = {}
+    for atk, stats in team2["data"].items():
+        if atk in team1["data"]:
+            team1["data"][atk]["w"] += stats["w"]
+            team1["data"][atk]["d"] += stats["d"]
+            team1["data"][atk]["l"] += stats["l"]
+        else:
+            team1["data"][atk] = stats.copy()
 class GvgSolver(Cog_Extension, Hero) :
     def __init__(self, bot):
         super().__init__(bot=bot)
@@ -47,7 +56,7 @@ class GvgSolver(Cog_Extension, Hero) :
                         "Accept-Encoding" : "gzip, deflate, br",
                         "Priority" : "u=1, i"
                     }
-
+    
     @app_commands.command(description="GVG進攻解陣(支援遊戲內名稱、角色簡稱、英文名稱)")
     @app_commands.describe(hero1 = "選擇 一個英雄(使用滑鼠左鍵 或 鍵盤ENTER鍵，手機的話用點的)", hero2 = "選擇 一個英雄(使用滑鼠左鍵 或 鍵盤ENTER鍵，手機的話用點的)", hero3 = "選擇 一個英雄(使用滑鼠左鍵 或 鍵盤ENTER鍵，手機的話用點的)")
     @app_commands.guilds(setdata["Discord-Server-Id"]["main"])
@@ -74,42 +83,42 @@ class GvgSolver(Cog_Extension, Hero) :
                     await interaction.followup.send("發生錯誤! 請再試一次 >.<")
                     return
         
-        try :
-            # 沒有數據
-            if "status" in data_dic and data_dic["status"] == "ERROR" :
-                await interaction.followup.send(f"目前紀錄沒有 {make_team(self.info, [hero1, hero2, hero3])} 的解法")
-                return
-            
-            # 排序 : 勝利場數降冪 取前20個
-            teams = sorted(data_dic["data"].items(), key=lambda item: (-item[1]['w'], -item[1]['d'], item[1]['l']))[:20]
-            
-            # 創建 embed
-            embed = discord.Embed(title=f"勝利場數最多的前{len(teams)}種組合", color=0x00ffff)
-            embed.add_field(name=f"敵方陣容 :  {make_team(self.info, [hero1, hero2, hero3])}", value="\u200B", inline=False)
-            embed.add_field(name="進攻陣容 :", value="", inline=False)
-            
-            for team in teams :
-                # 將隊伍中的角色拆開
-                heroes = [hero for hero in team[0].split(",") if hero in self.info]
-                total = (team[1]['w'] + team[1]['d'] + team[1]['l']) * 2
-                wins = team[1]['w'] * 2 + team[1]['d']
-                rate = float(wins / total)
-                embed.add_field(name=f"{make_team(self.info, heroes)}   {self.win} {team[1]['w']}  {self.lose} {team[1]['l']}  |  {rate:.1%}", value="", inline=False)
-            
-            
-            EngName = [ self.info[hero1]["OptionName"], self.info[hero2]["OptionName"], self.info[hero3]["OptionName"] ]
-            EngName = [ extract_Eng(hero) for hero in EngName ]
-            EngName = [ name.replace(" ", "%20") for name in EngName]
-            
-            link = "https://fribbels.github.io/e7/gw-meta.html?def=" + ','.join(EngName)
-            
-            embed.add_field(name="", value="", inline=False)
-            embed.add_field(name="更多進攻陣容:", value=link, inline=False)
-            
-            await interaction.followup.send(embed=embed)
-            
-        except Exception as e :
-            await interaction.followup.send(e)    
+        local_teams = await commands.Bot.get_cog(self.bot, "GvGDataManager").GetData(hero1=hero1, hero2=hero2, hero3=hero3)
+    
+        # 沒有數據
+        if ("status" in data_dic and data_dic["status"] == "ERROR") and (not local_teams["data"]) :
+            await interaction.followup.send(f"目前紀錄沒有 {make_team(self.info, [hero1, hero2, hero3])} 的解法")
+            return
+        
+        MergeTeam(data_dic, local_teams)
+        
+        # 排序 : 勝利場數降冪 取前20個
+        teams = sorted(data_dic["data"].items(), key=lambda item: (-item[1]['w'], -item[1]['d'], item[1]['l']))[:20]
+        
+        # 創建 embed
+        embed = discord.Embed(title=f"勝利場數最多的前{len(teams)}種組合", color=0x00ffff)
+        embed.add_field(name=f"敵方陣容 :  {make_team(self.info, [hero1, hero2, hero3])}", value="\u200B", inline=False)
+        embed.add_field(name="進攻陣容 :", value="", inline=False)
+        
+        for team in teams :
+            # 將隊伍中的角色拆開
+            heroes = [hero for hero in team[0].split(",") if hero in self.info]
+            total = (team[1]['w'] + team[1]['d'] + team[1]['l']) * 2
+            wins = team[1]['w'] * 2 + team[1]['d']
+            rate = float(wins / total)
+            embed.add_field(name=f"{make_team(self.info, heroes)}   {self.win} {team[1]['w']}  {self.lose} {team[1]['l']}  |  {rate:.1%}", value="", inline=False)
+        
+        
+        EngName = [ self.info[hero1]["OptionName"], self.info[hero2]["OptionName"], self.info[hero3]["OptionName"] ]
+        EngName = [ extract_Eng(hero) for hero in EngName ]
+        EngName = [ name.replace(" ", "%20") for name in EngName]
+        
+        link = "https://fribbels.github.io/e7/gw-meta.html?def=" + ','.join(EngName)
+        
+        embed.add_field(name="", value="", inline=False)
+        embed.add_field(name="更多進攻陣容:", value=link, inline=False)
+        
+        await interaction.followup.send(embed=embed)
     
     @app_commands.command(
         name="gvg_helper",
