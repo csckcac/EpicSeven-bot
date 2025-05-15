@@ -1,5 +1,6 @@
 discord.py == 2.4.0
 aiofiles == 24.1.0
 aiohttp == 3.7.4.post0
+aiosqlite == 0.21.0
 requests == 2.31.0
 scrapetube == 2.5.1
