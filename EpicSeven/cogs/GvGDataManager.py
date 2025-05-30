@@ -9,7 +9,7 @@ import asyncio
 from core.classes import Cog_Extension
 from core.Hero import Hero
 
-with open("EpicSeven\\data\\BasicSetting\\setting.json", encoding="utf-8") as f :
+with open("EpicSeven/data/BasicSetting/setting.json", encoding="utf-8") as f :
     setdata = json.load(f)
 
 db_path = 'EpicSeven\\data\\GvGData\\data.db'
@@ -242,7 +242,7 @@ class GvGDataManager(Cog_Extension, Hero):
         self.user_log = {}
 
     async def cog_load(self):
-        # load user_log
+        # load user_log        
         self.user_log = await self.load_json(user_log_path)
         if self.user_log is None:
             self.user_log = {}
