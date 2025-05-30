@@ -12,8 +12,8 @@ from core.Hero import Hero
 with open("EpicSeven/data/BasicSetting/setting.json", encoding="utf-8") as f :
     setdata = json.load(f)
 
-db_path = 'EpicSeven\\data\\GvGData\\data.db'
-user_log_path = 'EpicSeven\\data\\GvGData\\user_log.json'
+db_path = 'EpicSeven/data/GvGData/data.db'
+user_log_path = 'EpicSeven/data/GvGData/user_log.json'
 
 # turn list to str for display in embed message
 def make_team(info, heroses):
