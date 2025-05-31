@@ -121,18 +121,20 @@ class Draw_img(Cog_Extension) :
         description="查詢圖庫中圖片的數量"
     )
     @app_commands.guilds(setdata["Discord-Server-Id"]["main"], setdata["Discord-Server-Id"]["test"])
-    async def check(self, ctx) :
+    async def check(self, interaction) :
+        await interaction.response.defer()
         images_data = await self.load_json(self.file)
-        await ctx.send(f"現在圖庫總共有 {len(images_data['images'])} 張圖片")
+        await interaction.followup.send(f"現在圖庫總共有 {len(images_data['images'])} 張圖片")
 
     @app_commands.command(
         name="check_image_drawn_num",
         description="查詢已抽過圖片的數量"
     )
     @app_commands.guilds(setdata["Discord-Server-Id"]["main"], setdata["Discord-Server-Id"]["test"])
-    async def check_drawn(self, ctx) :
+    async def check_drawn(self, interaction) :
+        await interaction.response.defer()
         logs = await self.load_json(self.log)
-        await ctx.send(f"現在已經抽了 {len(logs['images'])} 張圖片")
+        await interaction.followup.send(f"現在已經抽了 {len(logs['images'])} 張圖片")
 
 async def setup(bot):
   await bot.add_cog(Draw_img(bot), guilds = [discord.Object(id = setdata["Discord-Server-Id"]["main"]), discord.Object(id = setdata["Discord-Server-Id"]["test"])])

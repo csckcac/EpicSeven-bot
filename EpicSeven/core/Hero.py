@@ -12,7 +12,7 @@ class Hero(commands.Cog) :
 
     async def SelectHero(self, interaction : discord.Interaction, input : str) -> list[Choice[str]] :       
         matching_val = {val for input_val, val in self.name_dic.items() if input.lower() in input_val.lower()}
-        matching_val = list(matching_val)[:25] # up to 25 heroes
+        matching_val = list(matching_val)[:10] # up to 25 heroes
         
         # return option
         return [
