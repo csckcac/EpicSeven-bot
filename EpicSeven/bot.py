@@ -42,9 +42,9 @@ async def load(ctx, extension) :
             extension = extension[:-3]
 
         await bot.load_extension(f"cogs.{extension}")
-        await ctx.send(f"Load {extension} done.") 
+        await ctx.reply(f"Load {extension} done.") 
     except Exception as e :
-        await ctx.send(e)
+        await ctx.reply(e)
 
 @bot.command(help = "將特定的Cog卸載")
 @is_author()
@@ -54,9 +54,9 @@ async def unload(ctx, extension) :
             extension = extension[:-3]
 
         await bot.unload_extension(f"cogs.{extension}")
-        await ctx.send(f"Unload {extension} done.")
+        await ctx.reply(f"Unload {extension} done.")
     except Exception as e :
-        await ctx.send(e)
+        await ctx.reply(e)
 
 @bot.command(help = "將特定的Cog重新載入")
 @is_author()
@@ -66,29 +66,29 @@ async def reload(ctx, extension) :
             extension = extension[:-3]
 
         await bot.reload_extension(f"cogs.{extension}")
-        await ctx.send(f"Reload {extension} done.")
+        await ctx.reply(f"Reload {extension} done.")
     
     except Exception as e :
-        await ctx.send(e)
+        await ctx.reply(e)
 
 @bot.command(help = "將所有的Cog重新載入")
 @is_author()
 async def reload_all(ctx) :
     try :
         await load_cog()
-        await ctx.send("reload_all done")
+        await ctx.reply("reload_all done")
     except Exception as e :
-        await ctx.send(e)
+        await ctx.reply(e)
         
 @bot.command(help = "將bot關閉")
 @is_author()
 async def quit(ctx) :
     try :
-        await ctx.send("bot已下線")
+        await ctx.reply("bot已下線")
         print(f"{RED}使用指令下線{RESET}")
         await ctx.bot.close()
     except Exception as e :
-        await ctx.send(e)
+        await ctx.reply(e)
 
 @bot.event
 async def on_ready():

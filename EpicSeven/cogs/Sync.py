@@ -20,9 +20,9 @@ class Sync(Cog_Extension) :
     async def sync(self, ctx) :
         try :
             fmt = await ctx.bot.tree.sync(guild = ctx.guild)
-            await ctx.send(f"Synced {len(fmt)} commands.")
+            await ctx.reply(f"Synced {len(fmt)} commands.")
         except Exception as e :
-            await ctx.send(e)
+            await ctx.reply(e)
         
 async def setup(bot) :
     await bot.add_cog(Sync(bot), guilds=[discord.Object(id = setdata["Discord-Server-Id"]["main"]), discord.Object(id = setdata["Discord-Server-Id"]["test"])])
